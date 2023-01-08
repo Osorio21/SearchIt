@@ -7,14 +7,33 @@
 
 import Foundation
 
+//Business object that will contain specific properties
 struct Business: Decodable {
     var name: String
-    let address: String //formatted address
-    let distance: Double
-    let phone: String //tel
+    let address: String
+    //let distance: Double
+    let phone: String
     let website: String
     let description: String
+    
+    //specify keys
+    enum CodingKeys: String, CodingKey {
+        
+        case name
+        case address = "formatted_address"
+        //case distance
+        case phone = "tel"
+        case website
+        case description
+        case location
+    }
+    
+    init (from decoder: Decoder) throws {
+        
+    }
 }
+
+
 
 //test case
 
@@ -59,7 +78,24 @@ func fourSquareCall() {
  {
    "results": [
      {
-       "name": "Dunkin'"
+       "description": "America’s favorite all-day, everyday stop for coffee, espresso, breakfast sandwiches and donuts. Order your Dunkin’ faves via the drive-thru or order ahead of time with the Dunkin’ mobile app for a fast grab and go experience.",
+       "location": {
+         "address": "311 W Oglethorpe Blvd",
+         "census_block": "130950114002063",
+         "country": "US",
+         "cross_street": "",
+         "dma": "Albany, Ga",
+         "formatted_address": "311 W Oglethorpe Blvd, Albany, GA 31701",
+         "locality": "Albany",
+         "neighborhood": [
+           "Gloriana"
+         ],
+         "postcode": "31701",
+         "region": "GA"
+       },
+       "name": "Dunkin'",
+       "tel": "(229) 496-1150",
+       "website": "http://www.dunkindonuts.com"
      }
    ],
    "context": {

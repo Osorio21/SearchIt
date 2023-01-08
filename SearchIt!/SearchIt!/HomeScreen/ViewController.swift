@@ -10,7 +10,10 @@ import UIKit
 class ViewController: UIViewController {
     
     //creation of application title variable
-    var appTitle = UILabel()
+    let appTitle = UILabel()
+    
+    //initialize gradient class
+    let colors = Colors()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +30,16 @@ class ViewController: UIViewController {
         appTitle.layer.shadowOffset = CGSize(width: 4, height: 4)
         appTitle.layer.masksToBounds = false
         
-        
         //add app title text to view
         self.view.addSubview(appTitle)
+        
+        //create button for transition to second screen
+        let startItbutton = UIButton(frame: CGRect(x: 0, y: 600, width: 250, height: 100))
+        startItbutton.setTitle("StartIt!", for: .normal)
+        startItbutton.center.x = self.view.center.x
+        startItbutton.titleLabel?.font = UIFont(name: "Gill Sans", size: 40)
+        startItbutton.backgroundColor = UIColor.systemGray
+        self.view.addSubview(startItbutton)
         
         
     }
@@ -44,8 +54,6 @@ class ViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         colors.cgl.frame = self.view.bounds
     }
-    
-    let colors = Colors()
     
     //apply background colors to view
     func background_refresh() {

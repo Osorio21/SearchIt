@@ -7,15 +7,17 @@
 
 import Foundation
 
+typealias FAC = Foursquare_API_Constants
+
 //Business object that will contain specific properties
 struct Business: Decodable {
     
     var name: String
-    let address: String
-    //let distance: Double
-    let phone: String
-    let website: String
-    let description: String
+    var address: String
+    var id: String
+    var phone: String
+    var website: String
+    var description: String
     
     //specify keys
     enum CodingKeys: String, CodingKey {
@@ -23,21 +25,22 @@ struct Business: Decodable {
         case location
         case name
         case address = "formatted_address"
-        //case distance
         case phone = "tel"
         case website
         case description
+        case id = "fsq_id"
     }
     
     init (from decoder: Decoder) throws {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        //Parse name, phone, website, and description
-        self.name = try values.decode(String.self, forKey: .name)
-        self.phone = try values.decode(String.self, forKey: .phone)
-        self.website = try values.decode(String.self, forKey: .website)
-        self.description = try values.decode(String.self, forKey: .description)
+        //Parse name, phone, website, description, and fsq_id
+        self.name = try! values.decode(String.self, forKey: .name)
+        self.phone = try! values.decode(String.self, forKey: .phone)
+        self.website = try! values.decode(String.self, forKey: .website)
+        self.description = try! values.decode(String.self, forKey: .description)
+        self.id = try! values.decode(String.self, forKey: .id)
         
         //Parse location data
         let locationContainer = try values.nestedContainer(keyedBy: CodingKeys.self, forKey: .location)
@@ -49,6 +52,7 @@ struct Business: Decodable {
 }
 
 //send request to FourSquare Places API
+//decode retrieved JSON
 func fourSquareCall() {
     
     //headers
@@ -58,7 +62,7 @@ func fourSquareCall() {
     ]
     
     //URL Request
-    let request = NSMutableURLRequest(url: NSURL(string: "https://api.foursquare.com/v3/places/search?query=coffee&fields=name&near=Albany%2CGA&sort=RELEVANCE&limit=1")! as URL,cachePolicy: .useProtocolCachePolicy,timeoutInterval: 10.0)
+    let request = NSMutableURLRequest(url: NSURL(string: FAC.API_URL)! as URL,cachePolicy: .useProtocolCachePolicy,timeoutInterval: 10.0)
     
     //set request properties
     request.httpMethod = "GET"
@@ -66,16 +70,30 @@ func fourSquareCall() {
 
     //create task
     let session = URLSession.shared
-    let dataTask = session.dataTask(with: request as URLRequest, completionHandler: { (data, response, error) -> Void in
+    let dataTask = session.dataTask(with: request as URLRequest) { (data, response, error) -> Void in
         
       //check error and response of dataTask
       if (error != nil) {
         print(error as Any)
+      
+      //decode data if no errors with error handling
       } else {
-          let httpResponse = response as? HTTPURLResponse
-          print(httpResponse!)
+          do {
+              
+              let decoder = JSONDecoder()
+              let response = try decoder.decode(Businesses.self, from: data!)
+              
+              dump(response)
+          }
+          catch {
+              print("Error parsing data")
+              
+          }
+       
+          
+          
         }
-    })
+    }
 
     //start task
     dataTask.resume()

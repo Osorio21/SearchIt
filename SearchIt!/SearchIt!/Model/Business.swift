@@ -7,9 +7,9 @@
 
 import Foundation
 
-
 //Business object that will contain specific properties
 struct Business: Decodable {
+    
     var name: String
     let address: String
     //let distance: Double
@@ -20,35 +20,33 @@ struct Business: Decodable {
     //specify keys
     enum CodingKeys: String, CodingKey {
         
+        case location
         case name
         case address = "formatted_address"
         //case distance
         case phone = "tel"
         case website
         case description
-        case location
     }
     
     init (from decoder: Decoder) throws {
         
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        //Parse name, phone, website, and description
+        self.name = try values.decode(String.self, forKey: .name)
+        self.phone = try values.decode(String.self, forKey: .phone)
+        self.website = try values.decode(String.self, forKey: .website)
+        self.description = try values.decode(String.self, forKey: .description)
+        
+        //Parse location data
+        let locationContainer = try values.nestedContainer(keyedBy: CodingKeys.self, forKey: .location)
+        
+        self.address = try locationContainer.decode(String.self, forKey: .address)
+        
     }
+  
 }
-
-
-
-
-struct Business: Decodable {
-    var name: String
-    let address: String //formatted address
-    let distance: Double
-    let phone: String //tel
-    let website: String
-    let description: String
-}
-
-
-//test case
-
 
 //send request to FourSquare Places API
 func fourSquareCall() {
@@ -83,10 +81,12 @@ func fourSquareCall() {
     dataTask.resume()
 }
 
+
+
+
 //Test JSON
 
 /*
- 
  {
    "results": [
      {
@@ -126,6 +126,4 @@ func fourSquareCall() {
      }
    }
  }
- 
- 
  */

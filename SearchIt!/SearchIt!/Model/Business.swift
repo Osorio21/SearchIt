@@ -7,7 +7,7 @@
 
 import Foundation
 
-typealias FAC = Foursquare_API_Constants
+var F = Foursquare_API_Constants()
 
 //Business object that will contain specific properties
 struct Business: Decodable {
@@ -62,7 +62,7 @@ func fourSquareCall() {
     ]
     
     //URL Request
-    let request = NSMutableURLRequest(url: NSURL(string: FAC.API_URL)! as URL,cachePolicy: .useProtocolCachePolicy,timeoutInterval: 10.0)
+    let request = NSMutableURLRequest(url: NSURL(string: F.API_URL)! as URL,cachePolicy: .useProtocolCachePolicy,timeoutInterval: 10.0)
     
     //set request properties
     request.httpMethod = "GET"

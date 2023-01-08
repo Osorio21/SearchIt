@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 //Business object that will contain specific properties
 struct Business: Decodable {
     var name: String
@@ -33,6 +34,17 @@ struct Business: Decodable {
     }
 }
 
+
+
+
+struct Business: Decodable {
+    var name: String
+    let address: String //formatted address
+    let distance: Double
+    let phone: String //tel
+    let website: String
+    let description: String
+}
 
 
 //test case
@@ -78,6 +90,7 @@ func fourSquareCall() {
  {
    "results": [
      {
+
        "description": "America’s favorite all-day, everyday stop for coffee, espresso, breakfast sandwiches and donuts. Order your Dunkin’ faves via the drive-thru or order ahead of time with the Dunkin’ mobile app for a fast grab and go experience.",
        "location": {
          "address": "311 W Oglethorpe Blvd",
@@ -96,6 +109,9 @@ func fourSquareCall() {
        "name": "Dunkin'",
        "tel": "(229) 496-1150",
        "website": "http://www.dunkindonuts.com"
+
+       "name": "Dunkin'"
+
      }
    ],
    "context": {

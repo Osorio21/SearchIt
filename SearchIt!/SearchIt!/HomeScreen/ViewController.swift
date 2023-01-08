@@ -9,23 +9,45 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    //creation of application title variable
+    var appTitle = UILabel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        //properties of app title text
+        appTitle.frame = CGRect(x: 0, y: 200, width: 250, height: 100)
+        appTitle.text = "SearchIt!"
+        appTitle.font = UIFont(name: "Gill Sans", size: 60)
+        appTitle.center.x = self.view.center.x
+        appTitle.textAlignment = .center
+        appTitle.layer.shadowColor = CGColor(red: 204.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1)
+        appTitle.layer.shadowRadius = 3
+        appTitle.layer.shadowOpacity = 1
+        appTitle.layer.shadowOffset = CGSize(width: 4, height: 4)
+        appTitle.layer.masksToBounds = false
+        
+        
+        //add app title text to view
+        self.view.addSubview(appTitle)
         
         
     }
     
+    //set background
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         background_refresh()
     }
     
+    //adjust frame of background to transition with device orientation
     override func viewDidLayoutSubviews() {
         colors.cgl.frame = self.view.bounds
     }
     
     let colors = Colors()
+    
+    //apply background colors to view
     func background_refresh() {
         view.backgroundColor = UIColor.clear
         let backgroundLayer = colors.cgl

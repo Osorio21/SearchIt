@@ -12,7 +12,10 @@ import Foundation
 struct Foursquare_API_Constants {
     
     static let API_Key = "fsq3JTL5+KcqJ1NavgKztGZqlH2zm9sYz1Ixk6NR4oKNkns="
-    static let API_URL = "https://api.foursquare.com/v3/places/search"
+    static let API_URL = """
+    https://api.foursquare.com/v3/places/search?query=coffee&fields=name%2Cdescription%2Ctel%2Cwebsite%2Clocation&near=Albany%2CGA&limit=1
+    """
+    
 }
 
 

@@ -11,35 +11,35 @@ The purpose of this application, SearchIt!, is to provide users the opportunity 
 
 #### **Model**
 
-##### API_Constants
+##### > API_Constants
 
-##### Business
+##### > Business
 
-##### Businesses
+##### > Businesses
 
-##### BackgroundColor
+##### > BackgroundColor
 
-##### InputValues
+##### > InputValues
 
 #### **Home Screen**
 
-##### View Controller
+##### > View Controller
 
 #### **Input Screen**
 
-##### InputListViewController
+##### > InputListViewController
 
-##### ILVC+Section
+##### > ILVC+Section
 
-##### ILVC+CellConfiguration
+##### > ILVC+CellConfiguration
 
 #### **Content Views**
 
-##### TextFieldContentView
+##### > TextFieldContentView
 
-##### PinnedSubview
+##### > PinnedSubview
 
-##### UIContentConfiguration
+##### > UIContentConfiguration
 
 
 ## Architectural Design Pattern

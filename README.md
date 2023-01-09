@@ -43,6 +43,10 @@ The purpose of this application, SearchIt!, is to provide users the opportunity 
 
 ##### > UIContentConfiguration
 
+#### **Assets**
+
+Borrows collection of colors and assets from Apple's UKit tutorials. These colors are used in some list cell backgrounds. 
+
 
 ## Architectural Design Pattern
 
@@ -75,11 +79,20 @@ Application was designed using UIKit programmatically.
 + UIButton
 + UIPickerView
 + UISlider
++ UIImage
 
 ## Screenshots of Simulator
 
 See *Screenshots* folder.
 
 ## Further Development Concerns
+
+### Debugging
+
+SearchIt! application has undergone minimal debugging and testing. While there is some error handling, not enough has been developed yet to handle any situation. For example, erroneous user input on the *Input Screen* can cause errors. Additionally, some API calls with nil return values may disrupt presentation of business info in the views.
+
+### Additional Features
+
+SearchIt! is designed to provide users with business options based on search criteria. Users, however, would want more data at their fingertips to make the most informed decision. With more development time, additional features can expand the application's reach in a competitive landscape. Some notable UI considerations to improve are better animations, more thoughtful backgrounds, and enhanced button designs. Another feature that would expand SearchIt!'s capabilities include utilization of a map API to provide a view of the locations relative to the user.
 
 

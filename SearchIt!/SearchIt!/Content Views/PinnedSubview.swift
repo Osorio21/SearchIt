@@ -12,7 +12,7 @@ import UIKit
 extension UIView {
     
     //add subview that is pinned to superview
-    func addPinnedSubview(_ subview: UIView, height: CGFloat? = nil, insets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)) {
+    func addPinnedSubview(_ subview: UIView, height: CGFloat? = nil, insets: UIEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)) {
         
         //adds subview to bottom of superview's hierarchy
         addSubview(subview)
@@ -26,10 +26,10 @@ extension UIView {
         
         //define horizontal padding
         subview.leadingAnchor.constraint(equalTo: leadingAnchor, constant: insets.left).isActive = true
-        subview.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -1.0 * insets.right).isActive = true
+        subview.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -1.1 * insets.right).isActive = true
         
         //bottom padding
-        subview.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1.0 * insets.bottom).isActive = true
+        subview.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -1.1 * insets.bottom).isActive = true
         
         //if height value is given constrain subview to height
         if let height = height {

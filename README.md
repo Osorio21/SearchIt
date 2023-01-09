@@ -31,10 +31,16 @@ The purpose of this application, SearchIt!, is to provide users the opportunity 
 
 #### Content Views
 
+##### TextFieldContentView
+
+##### PinnedSubview
+
 
 ## Architectural Design Pattern
 
 ### MVC Architecture
+
+MVC design pattern assigns objects in an application a role as a model, view or controller. Roles, however, can be merged allowing an object to fulfill two roles such as a view controller or a model controller. This pattern defines the purpose of an object in the application and the ways it communicates with other parts of the applciation. Software that adheres to this pattern generally is scalable, maintainable, well-defined and testable. 
 
 ## Overall User Flow
 

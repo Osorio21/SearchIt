@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  SearchIt!
 //
-//  Created by Brian Pinto on 1/6/23.
+//
 //
 
 import UIKit
@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         appTitle.font = UIFont(name: "Gill Sans", size: 60)
         appTitle.center.x = self.view.center.x
         appTitle.textAlignment = .center
+        appTitle.accessibilityLabel = NSLocalizedString("Start App", comment: "Start button accessibility label")
         appTitle.layer.shadowColor = CGColor(red: 204.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1)
         appTitle.layer.shadowRadius = 3
         appTitle.layer.shadowOpacity = 1

@@ -14,6 +14,7 @@ class InputListViewController: UICollectionViewController {
         
         let listLayout = listLayout()
         collectionView.collectionViewLayout = listLayout
+        collectionView.backgroundColor = UIColor(red: 0.0, green: 204.0/255.0, blue: 102.0/255.0, alpha: 1)
     }
     
     private func listLayout() -> UICollectionViewCompositionalLayout {
@@ -21,5 +22,6 @@ class InputListViewController: UICollectionViewController {
         listConfig.backgroundColor = .clear
         return UICollectionViewCompositionalLayout.list(using: listConfig)
     }
+    
     
 }

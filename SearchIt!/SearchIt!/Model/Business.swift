@@ -2,7 +2,7 @@
 //  Business.swift
 //  SearchIt!
 //
-//  Created by Brian Pinto on 1/7/23.
+//  
 //
 
 import Foundation
@@ -10,14 +10,15 @@ import Foundation
 var F = Foursquare_API_Constants()
 
 //Business object that will contain specific properties
-struct Business: Decodable {
+struct Business: Decodable, Identifiable {
     
-    var name: String
-    var address: String
-    var id: String
-    var phone: String
-    var website: String
-    var description: String
+    let name: String
+    let address: String
+    let id: String
+    let phone: String
+    let website: String
+    let description: String
+    var tips: [String]?
     
     //specify keys
     enum CodingKeys: String, CodingKey {
@@ -28,6 +29,7 @@ struct Business: Decodable {
         case phone = "tel"
         case website
         case description
+        case tips
         case id = "fsq_id"
     }
     
@@ -35,11 +37,12 @@ struct Business: Decodable {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        //Parse name, phone, website, description, and fsq_id
+        //Parse name, phone, website, description, tips, and fsq_id
         self.name = try! values.decode(String.self, forKey: .name)
         self.phone = try! values.decode(String.self, forKey: .phone)
         self.website = try! values.decode(String.self, forKey: .website)
         self.description = try! values.decode(String.self, forKey: .description)
+        self.tips = try? values.decode(Array.self, forKey: .tips)
         self.id = try! values.decode(String.self, forKey: .id)
         
         //Parse location data
@@ -83,7 +86,7 @@ func fourSquareCall() {
               let decoder = JSONDecoder()
               let response = try decoder.decode(Businesses.self, from: data!)
               
-              dump(response)
+              
           }
           catch {
               print("Error parsing data")

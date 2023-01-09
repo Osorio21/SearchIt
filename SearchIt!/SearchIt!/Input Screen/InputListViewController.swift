@@ -9,11 +9,8 @@ import UIKit
 
 class InputListViewController: UICollectionViewController {
     
-    //create diffiable data source
-    typealias DS = UICollectionViewDiffableDataSource<Int,String>
+    //create diffiable data source using typealias
     var dataSource: DS!
-    
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Int,String>
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,13 +23,8 @@ class InputListViewController: UICollectionViewController {
         collectionView.backgroundColor = UIColor(red: 0.0, green: 204.0/255.0, blue: 102.0/255.0, alpha: 1)
         
         //default cell configuration
-        let cellRegistration = UICollectionView.CellRegistration {(cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: String) in
-            let r = ["This", "is", "a", "test."]
-            let a = r[indexPath.item]
-            var contentConfig = cell.defaultContentConfiguration()
-            contentConfig.text = a
-            cell.contentConfiguration = contentConfig
-        }
+        let cellRegistration = UICollectionView.CellRegistration(handler: cellRegistrationHandler)
+        
         
         // connect diffable data source to collection view by passing in collection view to initializer of DDS
         // closure configures and returns cell for collection view

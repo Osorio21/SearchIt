@@ -39,6 +39,7 @@ class ViewController: UIViewController {
         startItbutton.center.x = self.view.center.x
         startItbutton.titleLabel?.font = UIFont(name: "Gill Sans", size: 40)
         startItbutton.backgroundColor = UIColor.systemGray
+        startItbutton.addTarget(self, action: #selector(beginApp(sender:)), for: .touchUpInside)
         self.view.addSubview(startItbutton)
         
         
@@ -62,6 +63,13 @@ class ViewController: UIViewController {
         backgroundLayer.frame = view.frame
         view.layer.insertSublayer(backgroundLayer, at: 0)
       }
+    
+    //selector function for button
+    @objc func beginApp(sender: UIButton){
+        let inputVC = storyboard?.instantiateViewController(withIdentifier: "InputScreen") as! InputListViewController
+        present(inputVC, animated: true, completion: nil)
+        
+    }
     
     
     

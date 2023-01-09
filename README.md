@@ -13,6 +13,8 @@ The purpose of this application, SearchIt!, is to provide users the opportunity 
 
 ##### > API_Constants
 
+Contains all relevant URL data for FourSquare Places API call in a struct named *Foursquare_API_Constants*.
+
 ##### > Business
 
 ##### > Businesses
@@ -45,7 +47,7 @@ The purpose of this application, SearchIt!, is to provide users the opportunity 
 
 #### **Assets**
 
-Borrows collection of colors and assets from Apple's UKit tutorials. These colors are used in some list cell backgrounds. 
+Borrows collection of colors and assets from Apple's UKit tutorials. These colors are used in some list cell backgrounds and symbols. 
 
 
 ## Architectural Design Pattern
@@ -62,7 +64,7 @@ A controller object acts as an intermediary between one or more of an applicatio
 
 One can merge the MVC roles played by an object, making an object fulfill both the controller and view roles. This is called a view controller. A view controller is a controller that concerns itself mostly with the view layer. Its primary responsibilities are to manage the interface and communicate with the model. Action methods concerned with data displayed in a view are typically implemented in a view controller.
 
-This application adheres to the MVC design pattern. Model objects located in the *Model* folder house data for the application and the computation for manipulating the data. For example, the *API_Constants* file houses data and logic on the URL that will used in the API call. 
+This application adheres to the MVC design pattern. Model objects located in the *Model* folder house data for the application and the computation for manipulating the data. For example, the *API_Constants* file houses data and logic on the URL that will used in the API call. The *Business* file contains select properties for any business searched by the user. Additionally, this file also contains code for the JSON decoding process. Views are held in a separate location with no direct influence on the models. *PinnedSubview* contains code on pinning objects into the superview and *TextFieldContentView* provides code on configuration of custom text fields. 
 
 
 ## Overall User Flow and Specific Design Decisions

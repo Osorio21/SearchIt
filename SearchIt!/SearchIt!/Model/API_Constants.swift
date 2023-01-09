@@ -2,7 +2,7 @@
 //  API_Constants.swift
 //  SearchIt!
 //
-//  Created by Brian Pinto on 1/7/23.
+//  
 //
 
 import Foundation
@@ -14,14 +14,16 @@ struct Foursquare_API_Constants {
     static let API_Key = "fsq3JTL5+KcqJ1NavgKztGZqlH2zm9sYz1Ixk6NR4oKNkns="
     var city: String
     var state: String
-    var product_category: String
+    var category: String
     var API_URL: String
+    var max_amount: Int
     init(){
-        city = "Albany"
-        state = "GA"
-        product_category = "pizza"
+        city = "San Francisco"
+        state = "CA"
+        category = "pizza"
+        max_amount = 1
         API_URL = """
-https://api.foursquare.com/v3/places/search?query=\(product_category)&fields=name%2Clocation%2Ctel%2Cwebsite%2Cfsq_id%2Cdescription&near=\(city)%2C%20\(state)&limit=1
+https://api.foursquare.com/v3/places/search?query=\(category)&fields=name%2Clocation%2Ctel%2Cwebsite%2Cfsq_id%2Cdescription%2Ctips&near=\(city)%2C%20\(state)&limit=\(max_amount)
 """
     }
 }

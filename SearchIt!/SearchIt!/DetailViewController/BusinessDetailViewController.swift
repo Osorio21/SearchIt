@@ -9,8 +9,10 @@ import UIKit
 
 class BusinessDetailViewController: UICollectionViewController {
     
+    private typealias DS = UICollectionViewDiffableDataSource<Int,Row>
     
     var business: Business
+    private var dataSource: DS!
     
     init(business: Business) {
         self.business = business
@@ -24,6 +26,25 @@ class BusinessDetailViewController: UICollectionViewController {
         fatalError()
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let cellRegistration = UICollectionView.CellRegistration(handler: cellRegistrationHandler)
+        dataSource = DS(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Row) in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        }
+    }
+    
+    //configuration of content in each cell
+    func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
+        var contentConfig = cell.defaultContentConfiguration()
+        contentConfig.text = text(for: row)
+        contentConfig.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle)
+        contentConfig.image = row.image
+        cell.contentConfiguration = contentConfig
+        cell.tintColor = UIColor(named: "TodayFutureGradientEnd")
+        }
+    
+    //returns text for cell depending on row enumeration
     func text(for row: Row) -> String? {
         switch row {
         case .name: return business.name

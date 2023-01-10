@@ -115,8 +115,6 @@ extension Array where Element == Business {
 }
 
 
-
-
 //Test JSON
 
 /*

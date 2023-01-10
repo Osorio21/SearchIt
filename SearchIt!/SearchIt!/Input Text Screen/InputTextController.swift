@@ -37,6 +37,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         let cat_TextField = UITextField(frame: CGRect(x: 10, y: 75, width: 350, height: 50))
         cat_TextField.placeholder = "Enter product category..."
         cat_TextField.borderStyle = .roundedRect
+        cat_TextField.accessibilityLabel = NSLocalizedString("Enter category", comment: "Category text field")
         view.addSubview(cat_TextField)
         
         //properties for location button
@@ -50,6 +51,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         let loc_TextField = UITextField(frame: CGRect(x: 10, y: 200, width: 350, height: 50))
         loc_TextField.placeholder = "Enter City,State..."
         loc_TextField.borderStyle = .roundedRect
+        loc_TextField.accessibilityLabel = NSLocalizedString("Enter location", comment: "Location text field")
         view.addSubview(loc_TextField)
         
         //properties for number of results button
@@ -63,6 +65,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         let num_TextField = UITextField(frame: CGRect(x: 10, y: 330, width: 350, height: 50))
         num_TextField.placeholder = "Enter max number of results..."
         num_TextField.borderStyle = .roundedRect
+        num_TextField.accessibilityLabel = NSLocalizedString("Enter number of results", comment: "Number of results text field")
         view.addSubview(num_TextField)
         
         //properties for number of results button
@@ -76,6 +79,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         let sort_TextField = UITextField(frame: CGRect(x: 10, y: 455, width: 350, height: 50))
         sort_TextField.placeholder = "Sort by..."
         sort_TextField.borderStyle = .roundedRect
+        sort_TextField.accessibilityLabel = NSLocalizedString("Enter sorting criteria", comment: "Sorting picker text field")
         view.addSubview(sort_TextField)
         self.sort_TextField = sort_TextField
         
@@ -94,6 +98,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         inputItbutton.titleLabel?.font = UIFont(name: "Gill Sans", size: 40)
         inputItbutton.backgroundColor = UIColor.systemGray
         inputItbutton.addTarget(self, action: #selector(beginApp(sender:)), for: .touchUpInside)
+        inputItbutton.accessibilityLabel = NSLocalizedString("Input Data Button", comment: "Input button accessibility label")
         self.view.addSubview(inputItbutton)
         
         

@@ -9,7 +9,9 @@ import UIKit
 
 class BusinessDetailViewController: UICollectionViewController {
     
+    //Int instances for section numbers and row instances for items
     private typealias DS = UICollectionViewDiffableDataSource<Int,Row>
+    private typealias snapshot = NSDiffableDataSourceSnapshot<Int,Row>
     
     var business: Business
     private var dataSource: DS!
@@ -32,6 +34,8 @@ class BusinessDetailViewController: UICollectionViewController {
         dataSource = DS(collectionView: collectionView) { (collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Row) in
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
         }
+        
+        updateSnapshot()
     }
     
     //configuration of content in each cell
@@ -44,6 +48,13 @@ class BusinessDetailViewController: UICollectionViewController {
         cell.tintColor = UIColor(named: "TodayFutureGradientEnd")
         }
     
+    private func updateSnapshot() {
+        var snapshot = snapshot()
+        snapshot.appendSections([0])
+        snapshot.appendItems([.name, .address, .phone, .web, .description, .tips], toSection: 0)
+        dataSource.apply(snapshot)
+    }
+    
     //returns text for cell depending on row enumeration
     func text(for row: Row) -> String? {
         switch row {
@@ -52,7 +63,7 @@ class BusinessDetailViewController: UICollectionViewController {
         case .phone: return business.phone
         case .web: return business.website
         case .description: return business.description
-        default: return nil
+        case .tips: return business.tips?[0]
         }
     }
     

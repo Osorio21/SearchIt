@@ -17,11 +17,17 @@ Contains all relevant URL data for FourSquare Places API call in a struct named 
 
 ##### > Business
 
+Contains Business struct that contains specified properties for business that are retrieved via API CALL. Also, contains decoder method along with intial URL request function.
+
 ##### > Businesses
 
 ##### > BackgroundColor
 
 ##### > InputValues
+
+##### > HSBackgroundColor
+
+Contains custom Colors class that creates gradient properties for Home Screen background.
 
 #### **Home Screen**
 
@@ -64,12 +70,12 @@ A controller object acts as an intermediary between one or more of an applicatio
 
 One can merge the MVC roles played by an object, making an object fulfill both the controller and view roles. This is called a view controller. A view controller is a controller that concerns itself mostly with the view layer. Its primary responsibilities are to manage the interface and communicate with the model. Action methods concerned with data displayed in a view are typically implemented in a view controller.
 
-This application adheres to the MVC design pattern. Model objects located in the *Model* folder house data for the application and the computation for manipulating the data. For example, the *API_Constants* file houses data and logic on the URL that will used in the API call. The *Business* file contains select properties for any business searched by the user. Additionally, this file also contains code for the JSON decoding process. Views are held in a separate location with no direct influence on the models. *PinnedSubview* contains code on pinning objects into the superview and *TextFieldContentView* provides code on configuration of custom text fields. 
+This application adheres to the MVC design pattern. Model objects located in the *Model* folder house data for the application and the computation for manipulating the data. For example, the *API_Constants* file houses data and logic on the URL that will used in the API call. The *Business* file contains select properties for any business searched by the user. Additionally, this file also contains code for the JSON decoding process. Views are held in a separate location with no direct influence on the models. In the *ContentViews* folder, *PinnedSubview* contains code on pinning objects into the superview and *TextFieldContentView* provides code on configuration of custom text fields. These view objects control how information is presented in the views but do not interfere and manipulate model data. Lastly, the view controllers are hybrid models that contain some info on view objects and also functionality to bridge communication between view and model objects. 
 
 
 ## Overall User Flow and Specific Design Decisions
 
-Application was designed using UIKit programmatically.
+Application was designed using UIKit programmatically. Upon running application, users are presented by the Home Screen which is controlled by the *View Controller*. Relative to appearance, the home screen has a custom color gradient background, application title text, and a button that transitions to the *InputListViewController*. *View Controller* contains code for the generation and properties of the button object, UILabel object, and the custom Colors class. 
 
 ## UI Components Utilized
 

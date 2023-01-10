@@ -28,29 +28,35 @@ class InputListViewController: UICollectionViewController {
         
         // connect diffable data source to collection view by passing in collection view to initializer of DDS
         // closure configures and returns cell for collection view
-        dataSource = DS(collectionView: collectionView) {(collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: String) in
+        dataSource = DS(collectionView: collectionView) {(collectionView: UICollectionView, indexPath: IndexPath, itemIdentifier: Row) in
             
             //reuse cells for performance
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
             
         }
         
+        updateSnapshot()
+        
+        
+        
+    }
+    
+    private func updateSnapshot() {
+        
         //create snapshot
         var snapshot = Snapshot()
         
         //append sections
-        snapshot.appendSections([0])
+        snapshot.appendSections([.category, .city, .state, .max_amount])
         
-        //append items to snapshot
-        snapshot.appendItems(["This", "is", "a", "test."])
+        snapshot.appendItems([.header(Section.category.name), .text(Section.category.name)], toSection: .category)
+        snapshot.appendItems([.header(Section.city.name), .text(Section.city.name)], toSection: .city)
+        snapshot.appendItems([.header(Section.state.name), .text(Section.state.name)], toSection: .state)
+        snapshot.appendItems([.header(Section.max_amount.name), .text(Section.max_amount.name)], toSection: .max_amount)
+    
         
         //apply snapshot to data source
         dataSource.apply(snapshot)
-        
-        //assign data source to collection view
-        collectionView.dataSource = dataSource
-        
-        
         
     }
     
@@ -59,6 +65,7 @@ class InputListViewController: UICollectionViewController {
         var listConfig = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
         listConfig.showsSeparators = false
         listConfig.backgroundColor = .clear
+        listConfig.headerMode = .firstItemInSection
         return UICollectionViewCompositionalLayout.list(using: listConfig)
     }
     

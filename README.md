@@ -3,7 +3,7 @@ Onramp/Realtor.com: Pre-Interview Project
 
 ## Purpose
 
-The purpose of this application, SearchIt!, is to provide users the opportunity to retrieve perintent business information in an easily viewable and navigable format. Users will enter the product category, relevant geographical location, desired number of results, and sorting parameters. Through an API call to the Foursquare Places API, the application will decode the JSON data and return a number of locations in a table matching the user specifications. User can click any item in the table for additional information. Additional information presented includes images, name, address, phone number, and tips if applicable. 
+The purpose of this application, SearchIt!, is to provide users the opportunity to retrieve perintent business information in an easily viewable and navigable format. Users will enter the product category, relevant geographical location, desired number of results, and sorting parameters. Through an API call to the Foursquare Places API, the application will decode the JSON data and return a number of locations in a table matching the user specifications. 
 
 ## Architectural Overview of SearchIt!
 
@@ -17,13 +17,19 @@ Contains all relevant URL data for FourSquare Places API call in a struct named 
 
 ##### > Business
 
-Contains Business struct that contains specified properties for business that are retrieved via API CALL. Also, contains decoder method along with intial URL request function.
+Contains Business struct that contains specified properties for business that are retrieved via API CALL. Also, contains JSON decoder method.
 
 ##### > Businesses
 
+Contains struct with properties to extract details from most external JSON container. 
+
 ##### > BackgroundColor
 
+Class that presents a gradient layer for backgrounds.
+
 ##### > InputValues
+
+Dummy struct used for testing before implementing JSON calls. 
 
 ##### > HSBackgroundColor
 
@@ -31,27 +37,21 @@ Contains custom Colors class that creates gradient properties for Home Screen ba
 
 #### **Home Screen**
 
-##### > View Controller
+##### >  HomeScreenController
+
+Contains view controller presenting home screen of app. Contains code for app title, start button, and background color properties. 
 
 #### **Input Screen**
 
-##### > InputListViewController
+##### > InputTextController
 
-##### > ILVC+Section
+Presents input screen for data to be used in API call. Composed of text labels, text fields, a gradient layer background, and an input button. Class conforms to APIInformation protocol to send input data to thrid screen upon user press.
 
-##### > ILVC+CellConfiguration
+#### **Business Screen**
 
-##### > ILVC+DataSource
+#### BusinessViewController
 
-#### **Business Table Screen**
-
-#### **Content Views**
-
-##### > TextFieldContentView
-
-##### > PinnedSubview
-
-##### > UIContentConfiguration
+Currently not functioning correctly. Presents a list of relevant businesses based on user input data. Business info includes name, address, and phone number. Code contains methods for layout configuration, cell configuration and symbol configuration. Additionally, there is confromity to CallDelegate protocol of APICallFunction to receive data generated after JSON decoding. Lastly, there is functionality supported by the APIInformation protocol to receive user input from the InputTextController. 
 
 #### **Assets**
 
@@ -72,24 +72,22 @@ A controller object acts as an intermediary between one or more of an applicatio
 
 One can merge the MVC roles played by an object, making an object fulfill both the controller and view roles. This is called a view controller. A view controller is a controller that concerns itself mostly with the view layer. Its primary responsibilities are to manage the interface and communicate with the model. Action methods concerned with data displayed in a view are typically implemented in a view controller.
 
-This application adheres to the MVC design pattern. Model objects located in the *Model* folder house data for the application and the computation for manipulating the data. For example, the *API_Constants* file houses data and logic on the URL that will used in the API call. The *Business* file contains select properties for any business searched by the user. Additionally, this file also contains code for the JSON decoding process. Views are held in a separate location with no direct influence on the models. In the *ContentViews* folder, *PinnedSubview* contains code on pinning objects into the superview and *TextFieldContentView* provides code on configuration of custom text fields. These view objects control how information is presented in the views but do not interfere and manipulate model data. Lastly, the view controllers are hybrid models that contain some info on view objects and also functionality to bridge communication between view and model objects. 
+This application adheres to the MVC design pattern. Model objects located in the *Model* folder house data for the application and the computation for manipulating the data. For example, the *API_Constants* file houses data and logic on the URL that will used in the API call. The *Business* file contains select properties for any business searched by the user. Additionally, this file also contains code for the JSON decoding process. Views are held in a separate location with no direct influence on the models. The view controllers are hybrid models that contain some info on view objects and also functionality to bridge communication between view and model objects. For example, InputTextController contains data on view objects but also functions for communicating the model data such as Business objects and the API Call function.
 
 
 ## Overall User Flow and Specific Design Decisions
 
-Application was designed using UIKit programmatically. Upon running application, users are presented by the Home Screen which is controlled by the *View Controller*. Relative to appearance, the home screen has a custom color gradient background, application title text, and a button that transitions to the *InputListViewController*. *View Controller* contains code for the generation and properties of the button object, UILabel object, and the custom Colors class. 
+Application was designed using UIKit programmatically. Upon running application, users are presented by the Home Screen which is controlled by the *HomeScreenController*. Relative to appearance, the home screen has a custom color gradient background, application title text, and a button that transitions to the *InputTextController*. *InputTextController* is designed with text labels and text fields hard coded due to time/knowledge contraints. Users can enter relevant data and press the InputIt! button to shift to the *BusinessViewController*. The *BusinessViewController* has a list layout due to my familiarity with this style. Unfortunately, the coding for this component is incomplete. The screen should present a scrollable list of relevant businesses with some pertinent info such as name and address based on the user inputted data. 
 
 ## UI Components Utilized
 
 + UIColor
 + UICollectionView
-+ UITableView
 + UILabel
 + UIFont
 + UIButton
-+ UIPickerView
-+ UISlider
 + UIImage
++ UIPickerView
 
 ## Screenshots of Simulator
 
@@ -99,10 +97,10 @@ See *Screenshots* folder.
 
 ### Debugging
 
-SearchIt! application has undergone minimal debugging and testing. While there is some error handling, not enough has been developed yet to handle any situation. For example, erroneous user input on the *Input Screen* can cause errors. Additionally, some API calls with nil return values may disrupt presentation of business info in the views.
+SearchIt! application has undergone minimal debugging and testing. While there is some error handling, not enough has been developed yet to handle any situation. For example, erroneous user input on the *Input Screen* can cause errors. Additionally, some API calls with nil return values may disrupt presentation of business info in the views. Currently, only one word cities are allowed. Otherwise, program execution halts. Lastly, I was not able to finish coding the BusinessViewController to present the business data in lists from data generated by the API Call.
 
 ### Additional Features
 
-SearchIt! is designed to provide users with business options based on search criteria. Users, however, would want more data at their fingertips to make the most informed decision. With more development time, additional features can expand the application's reach in a competitive landscape. Some notable UI considerations to improve are better animations, more thoughtful backgrounds, and enhanced button designs. Another feature that would expand SearchIt!'s capabilities include utilization of a map API to provide a view of the locations relative to the user.
+SearchIt! is designed to provide users with business options based on search criteria. Users, however, would want more data at their fingertips to make the most informed decision. With more development time, additional features can expand the application's reach in a competitive landscape. Some notable UI considerations to improve are better animations, more thoughtful backgrounds, and enhanced button designs. Another feature that would expand SearchIt!'s capabilities include utilization of a map API to provide a view of the locations relative to the user. Lastly, extra data such as recent reviews and images would be greatly helpful to the user. 
 
 

@@ -17,7 +17,7 @@ Contains all relevant URL data for FourSquare Places API call in a struct named 
 
 ##### > Business
 
-Contains Business struct that contains specified properties for business that are retrieved via API CALL. Also, contains JSON decoder method.
+Contains Business struct that contains specified properties for business that are retrieved via API Call. Also, contains JSON decoder method.
 
 ##### > Businesses
 
@@ -34,6 +34,10 @@ Dummy struct used for testing before implementing JSON calls.
 ##### > HSBackgroundColor
 
 Contains custom Colors class that creates gradient properties for Home Screen background.
+
+##### > APICallFunction
+
+Contains code that presents a function for url creation and API Call.
 
 #### **Home Screen**
 

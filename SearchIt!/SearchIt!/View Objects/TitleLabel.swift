@@ -13,6 +13,7 @@ class TitleLabel: UILabel {
         super.init(frame: frame)
         self.text = title
         self.font = UIFont(name: "Gill Sans", size: 60)
+        self.textAlignment = .center
         
     }
     

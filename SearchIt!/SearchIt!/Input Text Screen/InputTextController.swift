@@ -16,103 +16,66 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     var APIDelegate: APIInformation?
     
-    //text labels for titles
-    let cat_Title = UILabel()
-    let loc_Title = UILabel()
-    let num_Title = UILabel()
-    let sort_Title = UILabel()
+    //creation of category input labels
+    let cat_Title = InputLabel(frame: CGRect(x: 10, y: 0, width: 100, height: 100), title: "Category")
+    let loc_Title = InputLabel(frame: CGRect(x: 10, y: 125, width: 100, height: 100), title: "City,State")
+    let num_Title = InputLabel(frame: CGRect(x: 0, y: 250, width: 180, height: 100), title: "Max # of Results")
+    let sort_Title = InputLabel(frame: CGRect(x: 0, y: 375, width: 100, height: 100), title: "Sort by")
     
+    //initialize background color gradient struct
+    let background_colors = BackgroundColors()
+    
+    //creation of input text fields
+    let cat_TextField = InputField(frame: CGRect(x: 10, y: 75, width: 350, height: 50), placeholder: "Enter product category...")
+    let loc_TextField = InputField(frame: CGRect(x: 10, y: 200, width: 350, height: 50), placeholder: "Enter City,State...")
+    let num_TextField = InputField(frame: CGRect(x: 10, y: 330, width: 350, height: 50), placeholder: "Enter max number of results...")
+    let sort_TextField = InputField(frame: CGRect(x: 10, y: 455, width: 350, height: 50), placeholder: "Sort by...")
+    
+    //create button for transition to business screen
+    let inputItbutton = TransitionButton(frame: CGRect(x: 0, y: 650, width: 250, height: 100), label: "InputIt!")
+    
+    //picker initialization
+    let picker = UIPickerView()
+    
+    //picker choices
     let pickerArray = ["RELEVANCE", "DISTANCE", "POPULARITY", "RATING"]
-    
-    
-    //initialize gradient class
-    let backColors = Colors()
-    
-    //input text fields
-    let cat_TextField = UITextField(frame: CGRect(x: 10, y: 75, width: 350, height: 50))
-    let loc_TextField = UITextField(frame: CGRect(x: 10, y: 200, width: 350, height: 50))
-    let num_TextField = UITextField(frame: CGRect(x: 10, y: 330, width: 350, height: 50))
-    let sort_TextField = UITextField(frame: CGRect(x: 10, y: 455, width: 350, height: 50))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //properties for category text
-        cat_Title.frame = CGRect(x: 10, y: 0, width: 100, height: 100)
-        cat_Title.text = "Category:"
-        cat_Title.font = UIFont(name: "Gill Sans", size: 20)
-        cat_Title.font = UIFont.boldSystemFont(ofSize: cat_Title.font.pointSize)
-        cat_Title.textAlignment = .center
+        //add input titles to view
         self.view.addSubview(cat_Title)
-        
-        //properties for category text field
-        cat_TextField.placeholder = "Enter product category..."
-        cat_TextField.borderStyle = .roundedRect
-        cat_TextField.accessibilityLabel = NSLocalizedString("Enter category", comment: "Category text field")
-        view.addSubview(cat_TextField)
-        
-        //properties for location text
-        loc_Title.frame = CGRect(x: 10, y: 125, width: 100, height: 100)
-        loc_Title.text = "City,State:"
-        loc_Title.font = UIFont(name: "Gill Sans", size: 20)
-        loc_Title.font = UIFont.boldSystemFont(ofSize: cat_Title.font.pointSize)
-        loc_Title.textAlignment = .center
         self.view.addSubview(loc_Title)
-        
-        //properties for location text field
-        loc_TextField.placeholder = "Enter City,State..."
-        loc_TextField.borderStyle = .roundedRect
-        loc_TextField.accessibilityLabel = NSLocalizedString("Enter location", comment: "Location text field")
-        view.addSubview(loc_TextField)
-        
-        //properties for number of results text
-        num_Title.frame = CGRect(x: 0, y: 250, width: 180, height: 100)
-        num_Title.text = "Max # of Results:"
-        num_Title.font = UIFont(name: "Gill Sans", size: 20)
-        num_Title.font = UIFont.boldSystemFont(ofSize: cat_Title.font.pointSize)
-        num_Title.textAlignment = .center
         self.view.addSubview(num_Title)
-        
-        //properties for number of results text field
-        num_TextField.placeholder = "Enter max number of results..."
-        num_TextField.borderStyle = .roundedRect
-        num_TextField.accessibilityLabel = NSLocalizedString("Enter number of results", comment: "Number of results text field")
-        view.addSubview(num_TextField)
-        
-        //properties for sort by title
-        sort_Title.frame = CGRect(x: 0, y: 375, width: 100, height: 100)
-        sort_Title.text = "Sort by:"
-        sort_Title.font = UIFont(name: "Gill Sans", size: 20)
-        sort_Title.font = UIFont.boldSystemFont(ofSize: cat_Title.font.pointSize)
-        sort_Title.textAlignment = .center
         self.view.addSubview(sort_Title)
         
-        //properties for sort by text field
-        sort_TextField.placeholder = "Sort by..."
-        sort_TextField.borderStyle = .roundedRect
+        //accessibility labels for text fields
+        cat_TextField.accessibilityLabel = NSLocalizedString("Enter category", comment: "Category text field")
+        loc_TextField.accessibilityLabel = NSLocalizedString("Enter location", comment: "Location text field")
+        num_TextField.accessibilityLabel = NSLocalizedString("Enter number of results", comment: "Number of results text field")
         sort_TextField.accessibilityLabel = NSLocalizedString("Enter sorting criteria", comment: "Sorting picker text field")
+        
+        //add input text fields to view
+        view.addSubview(cat_TextField)
+        view.addSubview(loc_TextField)
+        view.addSubview(num_TextField)
         view.addSubview(sort_TextField)
        
-        //picker initialization
-        let picker = UIPickerView()
+        //set picker properties
         picker.sizeToFit()
         picker.delegate = self
         picker.dataSource = self
         
+        //set input view of picker
         sort_TextField.inputView = picker
         
-        
-        //create button for transition to business detail view screen
-        let inputItbutton = UIButton(frame: CGRect(x: 0, y: 650, width: 250, height: 100))
-        inputItbutton.setTitle("InputIt!", for: .normal)
+        //set button properties
         inputItbutton.center.x = self.view.center.x
-        inputItbutton.titleLabel?.font = UIFont(name: "Gill Sans", size: 40)
-        inputItbutton.backgroundColor = UIColor.systemGray
         inputItbutton.addTarget(self, action: #selector(inputData(sender:)), for: .touchUpInside)
         inputItbutton.accessibilityLabel = NSLocalizedString("Input Data Button", comment: "Input button accessibility label")
+        
+        //add button to view
         self.view.addSubview(inputItbutton)
-        
-        
     }
     
     //set background
@@ -123,14 +86,14 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     //adjust frame of background to transition with device orientation
     override func viewDidLayoutSubviews() {
-        backColors.cgl.frame = self.view.bounds
+        background_colors.cgl.frame = self.view.bounds
     }
     
-    //apply background colors to view
-    func background_refresh() {
+    //set color values and apply background colors to view
+    private func background_refresh() {
         view.backgroundColor = UIColor.clear
-        let backgroundLayer = backColors.cgl
-        backColors.cgl.colors = [CGColor(red: 204.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0),CGColor(red: 255.0/255.0, green: 128.0/255.0, blue: 0.0/255.0, alpha: 1.0)]
+        let backgroundLayer = background_colors.cgl
+        background_colors.cgl.colors = [CGColor(red: 204.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0),CGColor(red: 255.0/255.0, green: 128.0/255.0, blue: 0.0/255.0, alpha: 1.0)]
         backgroundLayer.frame = view.frame
         view.layer.insertSublayer(backgroundLayer, at: 0)
       }
@@ -151,7 +114,6 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         APIDelegate?.didEnterData(category_text: cText, city_text: cityText, state_text: stateText, amount_text: nText, sort_text: sText)
         let businessVC = storyboard?.instantiateViewController(withIdentifier: "BusinessView") as! BusinessViewController
         present(businessVC, animated: true, completion: nil)
-        
     }
     
     //picker properties
@@ -172,7 +134,4 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         sort_TextField.text = pickerArray[row]
         self.view.endEditing(true)
     }
-    
-    
-    
 }

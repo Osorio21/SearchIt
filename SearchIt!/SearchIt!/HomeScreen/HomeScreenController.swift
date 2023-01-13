@@ -5,9 +5,9 @@
 //
 //
 
-import UIKit
+//view controller for home screen that contains a simple title and start button with minimal styling
 
-//view controller for home screen that contains a simple title and start button
+import UIKit
 
 class HomeScreenController: UIViewController {
     
@@ -25,13 +25,6 @@ class HomeScreenController: UIViewController {
         
         //center title horixontally
         appTitle.center.x = self.view.center.x
-        
-        //shadow layer of app label text
-        appTitle.layer.shadowColor = CGColor(red: 204.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1)
-        appTitle.layer.shadowRadius = 3
-        appTitle.layer.shadowOpacity = 1
-        appTitle.layer.shadowOffset = CGSize(width: 4, height: 4)
-        appTitle.layer.masksToBounds = false
         
         //add title label text to view
         self.view.addSubview(appTitle)

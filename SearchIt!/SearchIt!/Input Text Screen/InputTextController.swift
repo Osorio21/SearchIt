@@ -45,6 +45,9 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     //slider initialization
     let slider = UISlider(frame: CGRect(x: 10, y: 400, width: 350, height: 50))
     
+    //determines state of slider
+    var sliderTouched = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -90,6 +93,9 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         
         //add slider to view
         self.view.addSubview(slider)
+    
+        setUpButton()
+        
     }
     
     //set background
@@ -153,5 +159,40 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     @objc func updateValue(sender: UISlider) {
         let currentValue = Int(sender.value)
         num_TextField.text = "\(currentValue)"
+    }
+    
+    //sets up initial condition of button as not enabled
+    private func setUpButton() {
+        inputItbutton.isEnabled = false
+        cat_TextField.addTarget(self, action: #selector(checkField(sender:)), for: .editingChanged)
+        loc_TextField.addTarget(self, action: #selector(checkField(sender:)), for: .editingChanged)
+        slider.addTarget(self, action: #selector(checkBool(sender:)), for: .allTouchEvents)
+        //picker.addTarget(self, action: #selector(bCheck(sender:)), for: .allTouchEvents)
+    }
+    
+    //determines if text fields have content
+    @objc func checkField(sender: UITextField) {
+        guard
+            let cat = cat_TextField.text, !cat.isEmpty,
+            let loc = loc_TextField.text, !loc.isEmpty,
+            sliderTouched == true
+        else {
+            self.inputItbutton.isEnabled = false
+            return
+        }
+        self.inputItbutton.isEnabled = true
+    }
+    //determines if text fields have content
+    @objc func checkBool(sender: UISlider) {
+        sliderTouched = true
+        guard
+            let cat = cat_TextField.text, !cat.isEmpty,
+            let loc = loc_TextField.text, !loc.isEmpty,
+            sliderTouched == true
+        else {
+            self.inputItbutton.isEnabled = false
+            return
+        }
+        self.inputItbutton.isEnabled = true
     }
 }

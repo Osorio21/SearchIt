@@ -5,6 +5,8 @@
 //  
 //
 
+//view controller for input text data screen that contains UILabels, UITextFields, PickerView, UISlider, and background color configurations
+
 import UIKit
 
 //protocol for sending input info to API Call Function
@@ -20,7 +22,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     let cat_Title = InputLabel(frame: CGRect(x: 10, y: 0, width: 100, height: 100), title: "Category")
     let loc_Title = InputLabel(frame: CGRect(x: 10, y: 125, width: 100, height: 100), title: "City,State")
     let num_Title = InputLabel(frame: CGRect(x: 0, y: 250, width: 180, height: 100), title: "Max # of Results")
-    let sort_Title = InputLabel(frame: CGRect(x: 0, y: 375, width: 100, height: 100), title: "Sort by")
+    let sort_Title = InputLabel(frame: CGRect(x: 0, y: 425, width: 100, height: 100), title: "Sort by")
     
     //initialize background color gradient struct
     let background_colors = BackgroundColors()
@@ -29,16 +31,19 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     let cat_TextField = InputField(frame: CGRect(x: 10, y: 75, width: 350, height: 50), placeholder: "Enter product category...")
     let loc_TextField = InputField(frame: CGRect(x: 10, y: 200, width: 350, height: 50), placeholder: "Enter City,State...")
     let num_TextField = InputField(frame: CGRect(x: 10, y: 330, width: 350, height: 50), placeholder: "Enter max number of results...")
-    let sort_TextField = InputField(frame: CGRect(x: 10, y: 455, width: 350, height: 50), placeholder: "Sort by...")
+    let sort_TextField = InputField(frame: CGRect(x: 10, y: 505, width: 350, height: 50), placeholder: "Sort by...")
     
     //create button for transition to business screen
-    let inputItbutton = TransitionButton(frame: CGRect(x: 0, y: 650, width: 250, height: 100), label: "InputIt!")
+    let inputItbutton = TransitionButton(frame: CGRect(x: 0, y: 600, width: 250, height: 100), label: "InputIt!")
     
     //picker initialization
     let picker = UIPickerView()
     
     //picker choices
     let pickerArray = ["RELEVANCE", "DISTANCE", "POPULARITY", "RATING"]
+    
+    //slider initialization
+    let slider = UISlider(frame: CGRect(x: 10, y: 400, width: 350, height: 50))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,6 +81,15 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         
         //add button to view
         self.view.addSubview(inputItbutton)
+        
+        //slider properties
+        slider.minimumValue = 1
+        slider.maximumValue = 50
+        slider.value = 1
+        slider.addTarget(self, action: #selector(updateValue(sender:)), for: .valueChanged)
+        
+        //add slider to view
+        self.view.addSubview(slider)
     }
     
     //set background
@@ -133,5 +147,11 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         sort_TextField.text = pickerArray[row]
         self.view.endEditing(true)
+    }
+    
+    //update Number of results text field when slider value changes
+    @objc func updateValue(sender: UISlider) {
+        let currentValue = Int(sender.value)
+        num_TextField.text = "\(currentValue)"
     }
 }

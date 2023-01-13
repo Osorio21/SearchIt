@@ -14,13 +14,17 @@ class HomeScreenController: UIViewController {
     //initialize custom background color struct
     let background_colors = BackgroundColors()
     
+    //creation and properties of app label text
+    let appTitle = TitleLabel(frame: CGRect(x: 0, y: 200, width: 250, height: 100), title: "SearchIt!")
+    
+    //create transition button
+    let startItbutton = TransitionButton(frame: CGRect(x: 0, y: 600, width: 250, height: 100), label: "StartIt!")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //creation and properties of app label text
-        let appTitle = TitleLabel(frame: CGRect(x: 0, y: 200, width: 250, height: 100), title: "SearchIt!")
+        //center title horixontally
         appTitle.center.x = self.view.center.x
-        appTitle.textAlignment = .center
         
         //shadow layer of app label text
         appTitle.layer.shadowColor = CGColor(red: 204.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1)
@@ -29,11 +33,10 @@ class HomeScreenController: UIViewController {
         appTitle.layer.shadowOffset = CGSize(width: 4, height: 4)
         appTitle.layer.masksToBounds = false
         
-        //add app label text to view
+        //add title label text to view
         self.view.addSubview(appTitle)
         
-        //create button and assign properties for transition to second screen
-        let startItbutton = TransitionButton(frame: CGRect(x: 0, y: 600, width: 250, height: 100), label: "StartIt!")
+        //assign properties to button for transition to second screen
         startItbutton.center.x = self.view.center.x
         startItbutton.accessibilityLabel = NSLocalizedString("Start App Button", comment: "Start button accessibility label")
         startItbutton.addTarget(self, action: #selector(beginApp(sender:)), for: .touchUpInside)
@@ -54,7 +57,7 @@ class HomeScreenController: UIViewController {
     }
     
     //apply background colors to view
-    func background_refresh() {
+    private func background_refresh() {
         view.backgroundColor = UIColor.clear
         let backgroundLayer = background_colors.cgl
         backgroundLayer.frame = view.frame

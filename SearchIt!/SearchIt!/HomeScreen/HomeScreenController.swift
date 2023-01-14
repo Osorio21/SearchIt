@@ -15,7 +15,7 @@ class HomeScreenController: UIViewController {
     let background_colors = BackgroundColors()
     
     //creation and properties of app label text
-    let appTitle = TitleLabel(frame: CGRect(x: 0, y: 200, width: 250, height: 100), title: "SearchIt!")
+    let appTitle = TitleLabel(frame: CGRect(x: 0, y: 150, width: 250, height: 100), title: "SearchIt!")
     
     //create transition button
     let startItbutton = TransitionButton(frame: CGRect(x: 0, y: 600, width: 250, height: 100), label: "StartIt!")
@@ -33,9 +33,22 @@ class HomeScreenController: UIViewController {
         startItbutton.center.x = self.view.center.x
         startItbutton.accessibilityLabel = NSLocalizedString("Start App Button", comment: "Start button accessibility label")
         startItbutton.addTarget(self, action: #selector(beginApp(sender:)), for: .touchUpInside)
-        
+
         //add button to view
         self.view.addSubview(startItbutton)
+        
+        //initialize Earth image
+        let imageName = "Earth.png"
+        let image = UIImage(named: imageName)
+        let imageView = UIImageView(image: image)
+        imageView.frame = CGRect(x: 0, y: 280, width: 250, height: 250)
+        imageView.center.x = self.view.center.x
+        
+        //set image to view
+        self.view.addSubview(imageView)
+        
+        //animate image
+        imageView.imageShake()
     }
     
     //set background
@@ -61,6 +74,8 @@ class HomeScreenController: UIViewController {
     //transition to InputTextController
     @objc func beginApp(sender: UIButton){
         let inputVC = storyboard?.instantiateViewController(withIdentifier: "InputText") as! InputTextController
+        
+        //change view
         present(inputVC, animated: true, completion: nil)
     }
 }

@@ -45,13 +45,13 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     //slider initialization
     let slider = UISlider(frame: CGRect(x: 10, y: 400, width: 350, height: 50))
     
-    //determines state of slider
+    //initialize state of slider
     var sliderTouched = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //add input titles to view
+        //add input title labels to view
         self.view.addSubview(cat_Title)
         self.view.addSubview(loc_Title)
         self.view.addSubview(num_Title)
@@ -77,6 +77,9 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         //set input view of picker
         sort_TextField.inputView = picker
         
+        //set default value of picker text field
+        sort_TextField.text = "RELEVANCE"
+        
         //set button properties
         inputItbutton.center.x = self.view.center.x
         inputItbutton.addTarget(self, action: #selector(inputData(sender:)), for: .touchUpInside)
@@ -94,8 +97,8 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         //add slider to view
         self.view.addSubview(slider)
     
+        //set initial button state to hidden
         setUpButton()
-        
     }
     
     //set background
@@ -136,7 +139,8 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         present(businessVC, animated: true, completion: nil)
     }
     
-    //picker properties
+    //pickerView configuration functions
+    
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -161,13 +165,12 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         num_TextField.text = "\(currentValue)"
     }
     
-    //sets up initial condition of button as not enabled
+    //sets up initial condition of button as hidden until all text fields contain content
     private func setUpButton() {
-        inputItbutton.isEnabled = false
+        inputItbutton.isHidden = true
         cat_TextField.addTarget(self, action: #selector(checkField(sender:)), for: .editingChanged)
         loc_TextField.addTarget(self, action: #selector(checkField(sender:)), for: .editingChanged)
         slider.addTarget(self, action: #selector(checkBool(sender:)), for: .allTouchEvents)
-        //picker.addTarget(self, action: #selector(bCheck(sender:)), for: .allTouchEvents)
     }
     
     //determines if text fields have content
@@ -177,12 +180,13 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             let loc = loc_TextField.text, !loc.isEmpty,
             sliderTouched == true
         else {
-            self.inputItbutton.isEnabled = false
+            self.inputItbutton.isHidden = true
             return
         }
-        self.inputItbutton.isEnabled = true
+        self.inputItbutton.isHidden = false
     }
-    //determines if text fields have content
+    
+    //determines if text fields have content, changes sliderTouched value to true after slider movement
     @objc func checkBool(sender: UISlider) {
         sliderTouched = true
         guard
@@ -190,9 +194,9 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             let loc = loc_TextField.text, !loc.isEmpty,
             sliderTouched == true
         else {
-            self.inputItbutton.isEnabled = false
+            self.inputItbutton.isHidden = true
             return
         }
-        self.inputItbutton.isEnabled = true
+        self.inputItbutton.isHidden = false
     }
 }

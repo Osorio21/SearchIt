@@ -9,23 +9,16 @@
 
 import UIKit
 
-//protocol for sending input info to API Call Function
-protocol APIInformation {
-    func didEnterData(category_text: String, city_text: String, state_text: String, amount_text: String, sort_text: String) 
-}
-
 class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    var APIDelegate: APIInformation?
+        
+    //initialize background color gradient struct
+    let background_colors = BackgroundColors()
     
     //creation of category input labels
     let cat_Title = InputLabel(frame: CGRect(x: 10, y: 0, width: 100, height: 100), title: "Category")
     let loc_Title = InputLabel(frame: CGRect(x: 10, y: 125, width: 100, height: 100), title: "City,State")
     let num_Title = InputLabel(frame: CGRect(x: 0, y: 250, width: 180, height: 100), title: "Max # of Results")
     let sort_Title = InputLabel(frame: CGRect(x: 0, y: 425, width: 100, height: 100), title: "Sort by")
-    
-    //initialize background color gradient struct
-    let background_colors = BackgroundColors()
     
     //creation of input text fields
     let cat_TextField = InputField(frame: CGRect(x: 10, y: 75, width: 350, height: 50), placeholder: "Enter product category...")
@@ -51,23 +44,11 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //add input title labels to view
-        self.view.addSubview(cat_Title)
-        self.view.addSubview(loc_Title)
-        self.view.addSubview(num_Title)
-        self.view.addSubview(sort_Title)
-        
         //accessibility labels for text fields
         cat_TextField.accessibilityLabel = NSLocalizedString("Enter category", comment: "Category text field")
         loc_TextField.accessibilityLabel = NSLocalizedString("Enter location", comment: "Location text field")
         num_TextField.accessibilityLabel = NSLocalizedString("Enter number of results", comment: "Number of results text field")
         sort_TextField.accessibilityLabel = NSLocalizedString("Enter sorting criteria", comment: "Sorting picker text field")
-        
-        //add input text fields to view
-        view.addSubview(cat_TextField)
-        view.addSubview(loc_TextField)
-        view.addSubview(num_TextField)
-        view.addSubview(sort_TextField)
        
         //set picker properties
         picker.sizeToFit()
@@ -82,11 +63,11 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         
         //set button properties
         inputItbutton.center.x = self.view.center.x
-        inputItbutton.addTarget(self, action: #selector(inputData(sender:)), for: .touchUpInside)
+        inputItbutton.addTarget(self, action: #selector(sendData(sender:)), for: .touchUpInside)
         inputItbutton.accessibilityLabel = NSLocalizedString("Input Data Button", comment: "Input button accessibility label")
         
-        //add button to view
-        self.view.addSubview(inputItbutton)
+        //set initial button state to hidden
+        setUpButton()
         
         //slider properties
         slider.minimumValue = 1
@@ -99,9 +80,21 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         
         //add slider to view
         self.view.addSubview(slider)
-    
-        //set initial button state to hidden
-        setUpButton()
+        
+        //add input text labels to view
+        self.view.addSubview(cat_Title)
+        self.view.addSubview(loc_Title)
+        self.view.addSubview(num_Title)
+        self.view.addSubview(sort_Title)
+        
+        //add input text fields to view
+        view.addSubview(cat_TextField)
+        view.addSubview(loc_TextField)
+        view.addSubview(num_TextField)
+        view.addSubview(sort_TextField)
+        
+        //add button to view
+        self.view.addSubview(inputItbutton)
     }
     
     //set background
@@ -124,24 +117,6 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         view.layer.insertSublayer(backgroundLayer, at: 0)
       }
     
-    //selector function for button
-    //send data to Business Detail View Controller for API Call
-    @objc func inputData(sender: UIButton){
-        let cText = cat_TextField.text!
-        let lsText = loc_TextField.text!
-        let i = lsText.firstIndex(of: ",")
-        var range = lsText[..<i!]
-        let cityText = String(range)
-        let comma_break = lsText.index(i!, offsetBy: 1)
-        range = lsText[comma_break...]
-        let stateText = String(range)
-        let nText = num_TextField.text!
-        let sText = sort_TextField.text!
-        APIDelegate?.didEnterData(category_text: cText, city_text: cityText, state_text: stateText, amount_text: nText, sort_text: sText)
-        let businessVC = storyboard?.instantiateViewController(withIdentifier: "BusinessView") as! BusinessViewController
-        present(businessVC, animated: true, completion: nil)
-    }
-    
     //pickerView configuration functions
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -162,7 +137,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         self.view.endEditing(true)
     }
     
-    //update Number of results text field when slider value changes
+    //update number of results text field when slider value changes
     @objc func updateValue(sender: UISlider) {
         let currentValue = Int(sender.value)
         num_TextField.text = "\(currentValue)"
@@ -177,6 +152,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     }
     
     //determines if text fields have content
+    //unhide button when all conditions are met
     @objc func checkField(sender: UITextField) {
         guard
             let cat = cat_TextField.text, !cat.isEmpty,
@@ -190,6 +166,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     }
     
     //determines if text fields have content, changes sliderTouched value to true after slider movement
+    //unhide button when all conditions are met
     @objc func checkBool(sender: UISlider) {
         sliderTouched = true
         guard
@@ -201,5 +178,31 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             return
         }
         self.inputItbutton.isHidden = false
+    }
+    
+    //sends input data collected to BusinessViewController for API call
+    @objc func sendData(sender: UIButton) {
+        let cText = cat_TextField.text!
+        let csText = loc_TextField.text
+        let result = locationSplit(csText)
+        let cityText = result.0
+        let stateText = result.1
+        let nText = num_TextField.text!
+        let sText = sort_TextField.text!
+        let businessVC = storyboard?.instantiateViewController(withIdentifier: "BusinessView") as! BusinessViewController
+        businessVC.input = Foursquare_API_Constants(cityText, stateText, cText, nText, sText)
+        present(businessVC, animated: true, completion: nil)
+    }
+    
+    //split location input into city and state constants
+    private func locationSplit(_ location: String?) -> (String,String) {
+        let csText = location!
+        let city = csText.firstIndex(of: ",")
+        var range = csText[..<city!]
+        let cityText = String(range)
+        let comma_break = csText.index(city!, offsetBy: 1)
+        range = csText[comma_break...]
+        let stateText = String(range)
+        return (cityText, stateText)
     }
 }

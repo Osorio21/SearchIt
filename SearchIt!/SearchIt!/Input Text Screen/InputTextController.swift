@@ -92,6 +92,9 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         slider.minimumValue = 1
         slider.maximumValue = 50
         slider.value = 1
+        slider.thumbTintColor = UIColor(red: 160.0/255.0, green: 160.0/255.0, blue: 160.0/255.0, alpha: 1)
+        slider.tintColor = UIColor(red: 76.0/255.0, green: 0, blue: 153.0/255.0, alpha: 1)
+        slider.maximumTrackTintColor = UIColor(red: 76.0/255.0, green: 0, blue: 153.0/255.0, alpha: 1)
         slider.addTarget(self, action: #selector(updateValue(sender:)), for: .valueChanged)
         
         //add slider to view

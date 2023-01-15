@@ -9,15 +9,8 @@ import Foundation
 
 //send request to FourSquare Places API
 //decode retrieved JSON
-//set protocol
-protocol CallDelegate {
-    func businessesReturned(_ businesses: [Business])
-}
 
 class Call{
-    
-    var delegate: CallDelegate?
-    
     
     func fourSquareCall(constant: Foursquare_API_Constants) {
         
@@ -36,35 +29,25 @@ class Call{
         
         //create task
         let session = URLSession.shared
-        let dataTask = session.dataTask(with: request as URLRequest) { [self] (data, response, error) -> Void in
+        let dataTask = session.dataTask(with: request as URLRequest) { (data, response, error) -> Void in
             
             //check error and response of dataTask
             if (error != nil) {
                 print(error as Any)
                 
-                //decode data if no errors with error handling
+                //decode data if no errors 
             } else {
                 do {
-                    
                     let decoder = JSONDecoder()
                     let response = try decoder.decode(Businesses.self, from: data!)
-                    
-                    delegate?.businessesReturned(response.results!)
-                    
-                    
-                }
-                catch {
-                    print("Error parsing data")
-                    
                 }
                 
+                catch {
+                    print("Error parsing data")
+                }
             }
         }
-        
         //start task
         dataTask.resume()
-        
     }
 }
-
-

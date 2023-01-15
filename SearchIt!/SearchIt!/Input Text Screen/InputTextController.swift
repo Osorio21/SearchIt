@@ -189,9 +189,9 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         let stateText = result.1
         let nText = num_TextField.text!
         let sText = sort_TextField.text!
-        let businessVC = storyboard?.instantiateViewController(withIdentifier: "BusinessView") as! BusinessViewController
-        businessVC.input = Foursquare_API_Constants(cityText, stateText, cText, nText, sText)
-        present(businessVC, animated: true, completion: nil)
+        let businessTVC = storyboard?.instantiateViewController(withIdentifier: "BusinessTable") as! BusinessTableViewController
+        businessTVC.input = Foursquare_API_Constants(cityText, stateText, cText, nText, sText)
+        present(businessTVC, animated: true, completion: nil)
     }
     
     //split location input into city and state constants

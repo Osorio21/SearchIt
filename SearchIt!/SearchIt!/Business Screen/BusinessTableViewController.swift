@@ -2,7 +2,7 @@
 //  BusinessTableViewController.swift
 //  SearchIt!
 //
-//  
+//
 //
 
 import UIKit
@@ -17,6 +17,16 @@ class BusinessTableViewController: UITableViewController {
         super.viewDidLoad()
         
         tableView.backgroundColor = UIColor(red: 0.0, green: 102.0/255.0, blue: 204.0/255.0, alpha: 1.0)
+        
+        let customView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 150))
+        let rewindItbutton = TransitionButton(frame: CGRect(x: 0, y: 0, width: 250, height: 100), label: "RewindIt!")
+        rewindItbutton.accessibilityLabel = NSLocalizedString("Rewind Button", comment: "Rewind button accessibility label")
+        rewindItbutton.addTarget(self, action: #selector(returnScreen(sender:)), for: .touchUpInside)
+        rewindItbutton.center.x = view.center.x
+        rewindItbutton.center.y = customView.center.y
+        
+        customView.addSubview(rewindItbutton)
+        tableView.tableFooterView = customView
         
         let inputData = input!
         
@@ -72,10 +82,26 @@ class BusinessTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let business = businesses[indexPath.row]
         cell.textLabel?.text = business.name
-        cell.textLabel?.font = UIFont.systemFont(ofSize: 25)
+        cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 25)
+        
         cell.detailTextLabel?.text = business.address
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 20)
-        cell.backgroundColor = UIColor(named: "TodayGradientFutureEnd")
+        switch indexPath.row % 4 {
+        case 0: cell.backgroundColor = UIColor(named: "TodayGradientFutureEnd")
+        case 1: cell.backgroundColor = UIColor(named: "TodayGradientAllEnd")
+        case 2: cell.backgroundColor = UIColor(named: "TodayGradientAllBegin")
+        case 3: cell.backgroundColor = UIColor(named: "TodayGradientTodayBegin")
+        default: break
+        }
+        
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let businessDVC = storyboard?.instantiateViewController(withIdentifier: "BusinessDetails") as! BusinessDetailsViewController
+        present(businessDVC, animated: true, completion: nil)
+    }
+    @objc func returnScreen(sender: UIButton) {
+        dismiss(animated: true)
     }
 }

@@ -17,9 +17,11 @@ struct Business: Decodable, Identifiable {
     var phone: String? = ""
     var website: String? = ""
     var description: String? = ""
+    let latitude: Double
+    let longitude: Double
     
     //specify keys
-    enum CodingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey{
         
         case location
         case name
@@ -28,6 +30,10 @@ struct Business: Decodable, Identifiable {
         case website
         case id = "fsq_id"
         case description
+        case geocodes
+        case main
+        case latitude
+        case longitude
     }
     
     init (from decoder: Decoder) throws {
@@ -44,6 +50,12 @@ struct Business: Decodable, Identifiable {
         //Parse location data
         let locationContainer = try values.nestedContainer(keyedBy: CodingKeys.self, forKey: .location)
         self.address = try locationContainer.decode(String.self, forKey: .address)
+        
+        //Parse latitude and longitude
+        let geocodesContainer = try values.nestedContainer(keyedBy: CodingKeys.self, forKey: .geocodes)
+        let mainContainer = try geocodesContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: .main)
+        self.latitude = try mainContainer.decode(Double.self, forKey: .latitude)
+        self.longitude = try mainContainer.decode(Double.self, forKey: .longitude)
     }
 }
 

@@ -23,7 +23,7 @@ class BusinessDetailsViewController: UITableViewController {
         
         //create custom views
         let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 150))
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 75))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 100))
         
         //create back button and map button
         let rewindItbutton = TransitionButton(frame: CGRect(x: 0, y: 0, width: 250, height: 50), label: "RewindIt!")
@@ -37,6 +37,7 @@ class BusinessDetailsViewController: UITableViewController {
         
         //map button properties
         mapItbutton.accessibilityLabel = NSLocalizedString("Map Button", comment: "Map button accessibility label")
+        mapItbutton.addTarget(self, action: #selector(mapBusiness(sender:)), for: .touchUpInside)
         mapItbutton.center.x = view.center.x
         mapItbutton.center.y = footerView.center.y
         
@@ -95,5 +96,12 @@ class BusinessDetailsViewController: UITableViewController {
     //dismisses view after RewindIt! button is pressed
     @objc func returnScreen(sender: UIButton) {
         dismiss(animated: true)
+    }
+    
+    //presents MapViewController after MapIt! button is pressed
+    @objc func mapBusiness(sender: UIButton){
+        let mapVC = storyboard?.instantiateViewController(withIdentifier: "MapView") as! MapViewController
+        mapVC.business = self.business
+        present(mapVC, animated: true, completion: nil)
     }
 }

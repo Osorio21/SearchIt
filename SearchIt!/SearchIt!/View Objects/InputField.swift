@@ -5,7 +5,7 @@
 //  
 //
 
-//custom UITextFIeld class
+//custom UITextFIeld class for input fields presented via InputTextContoller
 
 import UIKit
 
@@ -25,6 +25,7 @@ class InputField: UITextField {
         self.layer.borderColor = UIColor.black.cgColor
     }
     
+    //not using storyboard
     required init?(coder: NSCoder) {
         fatalError()
     }

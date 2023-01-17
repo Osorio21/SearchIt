@@ -14,22 +14,22 @@ class HomeScreenController: UIViewController {
     //initialize custom background color struct
     let background_colors = BackgroundColors()
     
-    //creation and properties of app label text
+    //creation of custom title UILabel
     let appTitle = TitleLabel(frame: CGRect(x: 0, y: 150, width: 250, height: 100), title: "SearchIt!")
     
-    //create transition button
+    //create transition button to InputTextController
     let startItbutton = TransitionButton(frame: CGRect(x: 0, y: 600, width: 250, height: 100), label: "StartIt!")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //center title horixontally
+        //center title label horixontally
         appTitle.center.x = self.view.center.x
         
         //add title label text to view
         self.view.addSubview(appTitle)
         
-        //assign properties to button for transition to second screen
+        //assign properties to transition button
         startItbutton.center.x = self.view.center.x
         startItbutton.accessibilityLabel = NSLocalizedString("Start App Button", comment: "Start button accessibility label")
         startItbutton.addTarget(self, action: #selector(beginApp(sender:)), for: .touchUpInside)
@@ -37,7 +37,7 @@ class HomeScreenController: UIViewController {
         //add button to view
         self.view.addSubview(startItbutton)
         
-        //initialize Earth image
+        //initialize Earth image and assign properties
         let imageName = "Earth.png"
         let image = UIImage(named: imageName)
         let imageView = UIImageView(image: image)
@@ -47,11 +47,11 @@ class HomeScreenController: UIViewController {
         //set image to view
         self.view.addSubview(imageView)
         
-        //animate image
+        //animate image with custom function
         imageView.imageShake()
     }
     
-    //set background
+    //set background color
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         background_refresh()
@@ -71,7 +71,7 @@ class HomeScreenController: UIViewController {
       }
     
     //selector function for button
-    //transition to InputTextController
+    //transition to InputTextController upon press
     @objc func beginApp(sender: UIButton){
         let inputVC = storyboard?.instantiateViewController(withIdentifier: "InputText") as! InputTextController
         

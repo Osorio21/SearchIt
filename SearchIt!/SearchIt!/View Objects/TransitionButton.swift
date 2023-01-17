@@ -5,7 +5,7 @@
 //  
 //
 
-//custom UIButton class
+//custom UIButton class for view transitions
 
 import UIKit
 
@@ -32,9 +32,8 @@ class TransitionButton: UIButton {
         self.layer.masksToBounds = false
     }
     
+    //not using storyboard
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
-    
 }

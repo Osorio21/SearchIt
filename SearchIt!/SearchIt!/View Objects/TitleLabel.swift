@@ -5,7 +5,7 @@
 //  
 //
 
-//custom UILabel for application title
+//custom UILabel class for application title presented via HomeScreenController
 
 import UIKit
 
@@ -27,9 +27,8 @@ class TitleLabel: UILabel {
         self.layer.masksToBounds = false
     }
     
+    //not using storyboard
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
-    
 }

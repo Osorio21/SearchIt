@@ -29,8 +29,8 @@ struct Foursquare_API_Constants {
         self.max_amount = max_amount
         self.sort_by = sort_by
         
-        API_URL = """
-https://api.foursquare.com/v3/places/search?query=\(self.category)&fields=name%2Clocation%2Ctel%2Cwebsite%2Cfsq_id%2Cdescription&near=\(self.city)%2C\(self.state)&sort=\(self.sort_by)&limit=\(self.max_amount)
+        self.API_URL = """
+https://api.foursquare.com/v3/places/search?query=\(self.category)&fields=name%2Clocation%2Ctel%2Cwebsite%2Cfsq_id%2Cdescription%2Cgeocodes&near=\(self.city)%2C\(self.state)&sort=\(self.sort_by)&limit=\(self.max_amount)
 """
     }
 }

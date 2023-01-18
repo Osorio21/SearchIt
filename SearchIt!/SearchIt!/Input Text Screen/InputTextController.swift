@@ -5,34 +5,35 @@
 //  
 //
 
-//view controller for input text data screen that contains UILabels, UITextFields, PickerView, UISlider, and background color configurations
+//view controller that presents input text data screen
+//users enter search parameters that will be used in API call to FourSquare Places in following screen
 
 import UIKit
 
 class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
         
-    //initialize background color gradient struct
-    let background_colors = BackgroundColors()
+    //initialize background color gradient object
+    let background_colors = BackgroundColors(colorTop: CGColor(red: 255.0/255.0, green: 51.0/255.0, blue: 51.0/255.0, alpha: 1.0), colorBottom: CGColor(red: 255.0/255.0, green: 128.0/255.0, blue: 0.0/255.0, alpha: 1.0))
     
-    //creation of category input labels
+    //creation of custom category input labels
     let cat_Title = InputLabel(frame: CGRect(x: 10, y: 0, width: 100, height: 100), title: "Category")
     let loc_Title = InputLabel(frame: CGRect(x: 10, y: 125, width: 100, height: 100), title: "City,State")
     let num_Title = InputLabel(frame: CGRect(x: 0, y: 250, width: 180, height: 100), title: "Max # of Results")
     let sort_Title = InputLabel(frame: CGRect(x: 0, y: 425, width: 100, height: 100), title: "Sort by")
     
-    //creation of input text fields
+    //creation of custom input text fields
     let cat_TextField = InputField(frame: CGRect(x: 10, y: 75, width: 350, height: 50), placeholder: "Enter product category...")
     let loc_TextField = InputField(frame: CGRect(x: 10, y: 200, width: 350, height: 50), placeholder: "Enter City,State...")
     let num_TextField = InputField(frame: CGRect(x: 10, y: 330, width: 350, height: 50), placeholder: "Enter max number of results...")
     let sort_TextField = InputField(frame: CGRect(x: 10, y: 505, width: 350, height: 50), placeholder: "Sort by...")
     
-    //create button for transition to business screen
+    //create custom button for transition to BusinessTableViewController
     let inputItbutton = TransitionButton(frame: CGRect(x: 0, y: 600, width: 250, height: 100), label: "InputIt!")
     
     //picker initialization
     let picker = UIPickerView()
     
-    //picker choices
+    //picker choices array
     let pickerArray = ["RELEVANCE", "DISTANCE", "POPULARITY", "RATING"]
     
     //slider initialization
@@ -55,7 +56,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         picker.delegate = self
         picker.dataSource = self
         
-        //set input view of picker
+        //set input view of picker as "sort_by" text field
         sort_TextField.inputView = picker
         
         //set default value of picker text field
@@ -97,7 +98,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         self.view.addSubview(inputItbutton)
     }
     
-    //set background
+    //set background color
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         background_refresh()
@@ -112,7 +113,6 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     private func background_refresh() {
         view.backgroundColor = UIColor.clear
         let backgroundLayer = background_colors.cgl
-        background_colors.cgl.colors = [CGColor(red: 204.0/255.0, green: 0.0/255.0, blue: 0.0/255.0, alpha: 1.0),CGColor(red: 255.0/255.0, green: 128.0/255.0, blue: 0.0/255.0, alpha: 1.0)]
         backgroundLayer.frame = view.frame
         view.layer.insertSublayer(backgroundLayer, at: 0)
       }
@@ -143,7 +143,7 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         num_TextField.text = "\(currentValue)"
     }
     
-    //sets up initial condition of button as hidden until all text fields contain content
+    //sets up initial condition of button as hidden until all text fields contain text
     private func setUpButton() {
         inputItbutton.isHidden = true
         cat_TextField.addTarget(self, action: #selector(checkField(sender:)), for: .editingChanged)
@@ -184,17 +184,24 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     @objc func sendData(sender: UIButton) {
         let cText = cat_TextField.text!
         let csText = loc_TextField.text
+        
+        //splits city and state text
         let result = locationSplit(csText)
         let cityText = result.0
         let stateText = result.1
+        
         let nText = num_TextField.text!
         let sText = sort_TextField.text!
+        
         let businessTVC = storyboard?.instantiateViewController(withIdentifier: "BusinessTable") as! BusinessTableViewController
+        
+        //initalizes Foursquare_API_Constants object with user input values which modifies URL used in API call
         businessTVC.input = Foursquare_API_Constants(cityText, stateText, cText, nText, sText)
+        
         present(businessTVC, animated: true, completion: nil)
     }
     
-    //split location input into city and state constants
+    //split location input into separate city and state strings
     private func locationSplit(_ location: String?) -> (String,String) {
         let csText = location!
         let city = csText.firstIndex(of: ",")

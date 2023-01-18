@@ -70,32 +70,11 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         //set initial button state to hidden
         setUpButton()
         
-        //slider properties
-        slider.minimumValue = 1
-        slider.maximumValue = 50
-        slider.value = 1
-        slider.thumbTintColor = UIColor(red: 160.0/255.0, green: 160.0/255.0, blue: 160.0/255.0, alpha: 1)
-        slider.tintColor = UIColor(red: 76.0/255.0, green: 0, blue: 153.0/255.0, alpha: 1)
-        slider.maximumTrackTintColor = UIColor(red: 76.0/255.0, green: 0, blue: 153.0/255.0, alpha: 1)
-        slider.addTarget(self, action: #selector(updateValue(sender:)), for: .valueChanged)
+        //set slider properties and add slider to view
+        setUpSlider()
         
-        //add slider to view
-        self.view.addSubview(slider)
-        
-        //add input text labels to view
-        self.view.addSubview(cat_Title)
-        self.view.addSubview(loc_Title)
-        self.view.addSubview(num_Title)
-        self.view.addSubview(sort_Title)
-        
-        //add input text fields to view
-        view.addSubview(cat_TextField)
-        view.addSubview(loc_TextField)
-        view.addSubview(num_TextField)
-        view.addSubview(sort_TextField)
-        
-        //add button to view
-        self.view.addSubview(inputItbutton)
+        //add labels, text fields, and button to view
+        addObjectsToView()
     }
     
     //set background color
@@ -117,24 +96,16 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         view.layer.insertSublayer(backgroundLayer, at: 0)
       }
     
-    //pickerView configuration functions
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerArray.count
-    
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerArray[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        sort_TextField.text = pickerArray[row]
-        self.view.endEditing(true)
+    //set initial slider properties, define target action, and set in view
+    private func setUpSlider() {
+        slider.minimumValue = 1
+        slider.maximumValue = 50
+        slider.value = 1
+        slider.thumbTintColor = UIColor(red: 160.0/255.0, green: 160.0/255.0, blue: 160.0/255.0, alpha: 1)
+        slider.tintColor = UIColor(red: 76.0/255.0, green: 0, blue: 153.0/255.0, alpha: 1)
+        slider.maximumTrackTintColor = UIColor(red: 76.0/255.0, green: 0, blue: 153.0/255.0, alpha: 1)
+        slider.addTarget(self, action: #selector(updateValue(sender:)), for: .valueChanged)
+        self.view.addSubview(slider)
     }
     
     //update number of results text field when slider value changes
@@ -211,5 +182,24 @@ class InputTextController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         range = csText[comma_break...]
         let stateText = String(range)
         return (cityText, stateText)
+    }
+    
+    //add labels, fields, and button to view
+    private func addObjectsToView() {
+        
+        //add input text labels to view
+        self.view.addSubview(cat_Title)
+        self.view.addSubview(loc_Title)
+        self.view.addSubview(num_Title)
+        self.view.addSubview(sort_Title)
+        
+        //add input text fields to view
+        view.addSubview(cat_TextField)
+        view.addSubview(loc_TextField)
+        view.addSubview(num_TextField)
+        view.addSubview(sort_TextField)
+        
+        //add button to view
+        self.view.addSubview(inputItbutton)
     }
 }

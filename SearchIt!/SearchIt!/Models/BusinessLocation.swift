@@ -12,14 +12,14 @@ import MapKit
 
 class BusinessLocation: NSObject, MKAnnotation {
     
-    var title: String?
+    var name: String?
     var coordinate: CLLocationCoordinate2D
-    var info: String
+    var address: String
     
-    init(title: String, coordinate: CLLocationCoordinate2D, info: String) {
-        self.title = title
+    init(name: String, coordinate: CLLocationCoordinate2D, address: String) {
+        self.name = name
         self.coordinate = coordinate
-        self.info = info
+        self.address = address
     }
 
 }

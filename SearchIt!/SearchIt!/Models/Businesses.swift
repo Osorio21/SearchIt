@@ -7,10 +7,10 @@
 
 import Foundation
 
-//additional struct to parse outer element of JSON
+//additional struct to parse outer "result" element of JSON object that reprsents a list of Business objects
 struct Businesses: Decodable {
     
-    var results: [Business]?
+    var results: [Business]
     
     enum CodingKeys: String, CodingKey {
         

@@ -2,13 +2,13 @@
 //  APICallFunction.swift
 //  SearchIt!
 //
-//  Created by Brian Pinto on 1/10/23.
+//
 //
 
 import Foundation
 
-//send request to FourSquare Places API
-//decode retrieved JSON
+//send request to FourSquare Places API based on URL property in Foursquare_API_Constants
+//decode retrieved JSON as Businesses object which is an array of Business objects
 
 class Call{
     
@@ -35,7 +35,7 @@ class Call{
             if (error != nil) {
                 print(error as Any)
                 
-                //decode data if no errors 
+            //decode data if no errors 
             } else {
                 do {
                     let decoder = JSONDecoder()

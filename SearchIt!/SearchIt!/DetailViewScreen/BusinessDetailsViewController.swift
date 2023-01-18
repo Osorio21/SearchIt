@@ -5,6 +5,9 @@
 //  
 //
 
+//view controller that presents a table with useful information about a business selected in the previous screen
+//users can choose to map the location by pressing the "MapIt!" button
+
 import UIKit
 
 class BusinessDetailsViewController: UITableViewController {
@@ -12,8 +15,8 @@ class BusinessDetailsViewController: UITableViewController {
     //declare Business object transferred from BusinessTableViewController
     var business: Business?
     
-    //array of header titles
-    let headerTitles = ["Name:", "Description:", "Address:", "Phone:", "Website:"]
+    //array of table header titles
+    let headerTitles = ["Name:", "Description:", "Address:", "Phone:", "Website:", "Tips:"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,14 +77,37 @@ class BusinessDetailsViewController: UITableViewController {
         let businessData = business!
         let businessArray = [businessData.name, businessData.description, businessData.address, businessData.phone, businessData.website]
         
-        //set cell content and properties
-        cell.textLabel?.text = businessArray[indexPath.section] ?? "No info found."
+        //set cell content based on section
+        switch indexPath.section {
+        case 0...4:
+            cell.textLabel?.text = businessArray[indexPath.section] ?? "No info found."
+            
+        //tips section
+        default:
+            if businessData.tips?.isEmpty == true {
+                cell.textLabel?.text = "No info found."
+            }
+            else {
+                cell.textLabel?.text = extractTips(businessData.tips!)
+            }
+        }
+        
+        //set cell properties
         cell.textLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         cell.textLabel?.numberOfLines = 0
-        //cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
-        //cell.sizeToFit()
         cell.backgroundColor = UIColor(named: "TodayGradientTodayBegin")
         return cell
+    }
+    
+    //extract text data from Tip array and convert it to a single text string
+    private func extractTips(_ tips: [Business.Tip]) -> String {
+        var tip = ""
+        var counter = 1
+        for item in tips {
+            tip = tip + "\(counter)" + ".  " + item.text + "  "
+            counter += 1
+        }
+        return tip
     }
     
     //sets table cell height

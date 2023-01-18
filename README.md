@@ -17,7 +17,7 @@ Struct that contains all relevant URL data for FourSquare Places API call. Prope
 
 ##### > Business
 
-Contains decodable Business struct that contains specified properties for Business objects that are created after API call and JSON decoding process. Business objects are later used to populate data in multiple table cells and for location plotting in maps.
+Contains decodable Business struct that has specific properties for Business objects that are created after API call and JSON decoding process. Business objects are later used to populate data in multiple table cells and for location plotting in maps.
 
 ##### > Businesses
 
@@ -43,7 +43,7 @@ Custom class for MKMapView annotations used in creating info pop-up for business
 
 ##### >  HomeScreenController
 
-Contains view controller (UIViewController) presenting home screen of app. Contains code for app title text (custom UILabel), start button (custom UIButton), and background color properties (custom color gradient struct). HomeScreenController also contains code for a globe image (UIImage) located in the center of the view with some basic animations. Animation code is found in the *ViewAnimation* file in the *View Objects* folder. Code for custom text label and custom button is found in the *TitleLabel* and *TransitionButton* files in the *View Objects* folder, respectively. Start button is coded to present the *InputTextController* upon being pressed.
+Contains view controller (UIViewController) presenting home screen of app. Contains code for app title text (custom UILabel), start button (custom UIButton), and background color properties (custom color gradient struct). HomeScreenController also has code for a globe image (UIImage) located in the center of the view with some basic animations. Animation code is found in the *ViewAnimation* file in the *View Objects* folder. Code for custom text label and custom button is found in the *TitleLabel* and *TransitionButton* files in the *View Objects* folder, respectively. Start button is coded to present the *InputTextController* upon being pressed.
 
 #### **Input Text Screen**
 
@@ -56,9 +56,9 @@ Categories are:
 + Category
 + City,State
 + Max # of Results
-+ SOrt by
++ Sort by
 
-Confroms to both the UIPickerViewDelegate and UIPickerViewDataSource protocols. Along with the aforementioned, this view controller contains code for background color properties and for splitting location input into separate city and state strings. Text field code is found in the *InputField* file in the *View Objects* folder. Code for custom text label and custom button is found in the *InputLabel* and *TransitionButton* files in the *View Objects* folder, respectively. Input button is coded to present the *BusinessTableViewController* upon being pressed after all text fields are filled. 
+Confroms to both the UIPickerViewDelegate and UIPickerViewDataSource protocols. Along with the aforementioned, this view controller has code for background color properties and for splitting location input into separate city and state strings. Text field code is found in the *InputField* file in the *View Objects* folder. Code for custom text label and custom button is found in the *InputLabel* and *TransitionButton* files in the *View Objects* folder, respectively. Input button is coded to present the *BusinessTableViewController* upon being pressed after all text fields are filled. 
 
 ##### > ITCPickerConfig
 
@@ -72,17 +72,17 @@ Extension of InputTextController that contains action functions for updating tex
 
 ##### BusinessTableViewController
 
-Contains view controller (UITableViewController) presenting a table of business cells listing name and address information. URL data from *InputTextController* was trasnferred to this view controller after transition button was pressed. *APICallFunction* is called from the viewDidLoad() method with the collected URL data. Use of delegate pattern (custom APICALL protocol) allows decoded JSON response to be set in variable defined in the *BusinessTableViewController*. Table data is reloaded and the table cells are populated with preliminary business data. Contains code for back button (custom UIButton) placed with a footer view, background color properties (custom color gradient struct), and configuration functions for customizing the text and color winth each cell. Back button is coded to present the *InputTextController* upon being pressed. Users transition to the *BusinessDetailsViewController* upon pressing any table cell. Specific Business object is transferred upon press of button.
+Contains view controller (UITableViewController) presenting a table of business cells listing name and address information. URL data from *InputTextController* was trasnferred to this view controller after transition button was pressed. *APICallFunction* is called from the viewDidLoad() method with the collected URL data. Use of delegate pattern (custom APICALL protocol) allows decoded JSON response to be set in variable defined in the *BusinessTableViewController*. Table data is reloaded and the table cells are populated with preliminary business data. Contains code for back button (custom UIButton) placed with a footer view, background color properties (custom color gradient struct), and configuration functions for customizing the text and color winth each cell. Back button is coded to present the *InputTextController* upon being pressed. Users transition to the *BusinessDetailsViewController* upon pressing any table cell. Specific Business object is transferred as well upon press of button.
 
 ##### BTVCTableConfig
 
-Extension of BusinessTableViewController that contains configuration functions for setting number of table rows and height of table rows.
+Extension of *BusinessTableViewController* that contains configuration functions for setting number of table rows and height of table rows.
 
 #### **DetailViewScreen**
 
 ##### BusinessDetailsViewController
 
-Information transferred from the *BusinessTableViewController* is presented here. View shows a table of the selected business with a variety of information in cells including the:
+Contains view controller (UITableViewController) presenting a table of business data. Information from Business object transferred from the *BusinessTableViewController* is presented here. View shows a table of the selected business with a variety of information in cells including the:
 
 + name
 + address
@@ -110,11 +110,11 @@ Extension to MapViewController that provides methods for setting up CLLocation()
 
 #### **View Objects**
 
-##### Transition Button
+##### TransitionButton
 
 Custom UIButton class with defined label, color, and shadow properties primarily used for transtioning to new view controller or dismissing current controller upon being pressed.
 
-##### Title Label
+##### TitleLabel
 
 Custom UILabel class with text and shadow properties used for app title on *Home Screen*.
 
@@ -157,7 +157,11 @@ This application adheres to the MVC design pattern. Model objects located in the
 
 ## Overall User Flow and Specific Design Decisions
 
-Application was designed using UIKit programmatically. Upon running application, users are presented with the Home Screen which is managed by the *HomeScreenController*. Relative to appearance, the home screen has a custom blue color gradient background, application title text, an animated globe image, and a button that transitions to the *InputTextController* upon a press. *InputTextController* is designed with custom text labels & text fields, a slider, and a picker view. These are used for simplicity and to encourage user interactions. Location data must be entered using a comma, state abbreviations, and without spaces. Product category must be defined in Four Squares directory. The button to transition to the following screen and transfer the data collected is hidden until all fields contains text. Users can enter relevant data and press the InputIt! button to shift to the *BusinessTableViewController*. If acceptable data was input, users are presented with a multi-color table of businesses depending on the input parameters. Each cell contains a business name and address. At the bottom of the table view is a back button for users to transition back to the *InputTextController* for a new search if desired. Pressing any business table cell tarnsitions users to the *BusinessDetailsViewController*. In this view, users are presented with a multitude of relevant data including description, website, and phone information. A back button is present in the header section for users interested in trying a different location. At the bottom of the table is a button to transition to the final screen, the map view. Map was included just to offer users an extra dimension in their search for comprehensive business data. The *MapViewController* marks two points, the user location and the selected business location. Simulator location is always San Francisco, CA. A route connecting the two points appears for users to peruse. Additionally, clicking on the business pin will present the user with an alert detailing the exact address of the business. Users can find a back button at the bottom of the map view if interested in mapping a different location from the variety of options. 
+Application was designed using UIKit programmatically. Upon running application, users are presented with the Home Screen which is managed by the *HomeScreenController*. Relative to appearance, the home screen has a custom blue color gradient background, application title text, an animated globe image, and a button that transitions to the *InputTextController* upon a press.
+ *InputTextController* is designed with custom text labels & text fields, a slider, and a picker view. These are used for simplicity and to encourage user interactions. Location data must be entered using a comma, state abbreviations, and without spaces. Product category must be defined in Four Squares directory. The button to transition to the following screen and transfer the data collected is hidden until all fields contains text. Users can enter relevant data and press the "InputIt!" button to shift to the *BusinessTableViewController*. 
+ If acceptable data was input, users are presented with a multi-color table of businesses depending on the input parameters. Each cell contains a business name and address. At the bottom of the table view is a back button for users to transition back to the *InputTextController* for a new search if desired. Pressing any business table cell tarnsitions users to the *BusinessDetailsViewController*. 
+ In this view, users are presented with a multitude of relevant data including description, website, and phone information. A back button is present in the header section for users interested in trying a different location. At the bottom of the table is a button to transition to the final screen, the map view. 
+ Map was included just to offer users an extra dimension in their search for comprehensive business data. The *MapViewController* marks two points, the user location and the selected business location. Simulator user location is always San Francisco, CA. A route connecting the two points appears for users to peruse. Additionally, clicking on the business pin will present the user with an alert detailing the exact address of the business. Users can find a back button at the bottom of the map view if interested in mapping a different location from the variety of options. 
 
 ## UI Components Utilized
 

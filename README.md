@@ -158,9 +158,13 @@ This application adheres to the MVC design pattern. Model objects located in the
 ## Overall User Flow and Specific Design Decisions
 
 Application was designed using UIKit programmatically. Upon running application, users are presented with the Home Screen which is managed by the *HomeScreenController*. Relative to appearance, the home screen has a custom blue color gradient background, application title text, an animated globe image, and a button that transitions to the *InputTextController* upon a press.
+
  *InputTextController* is designed with custom text labels & text fields, a slider, and a picker view. These are used for simplicity and to encourage user interactions. Location data must be entered using a comma, state abbreviations, and without spaces. Product category must be defined in Four Squares directory. The button to transition to the following screen and transfer the data collected is hidden until all fields contains text. Users can enter relevant data and press the "InputIt!" button to shift to the *BusinessTableViewController*. 
+ 
  If acceptable data was input, users are presented with a multi-color table of businesses depending on the input parameters. Each cell contains a business name and address. At the bottom of the table view is a back button for users to transition back to the *InputTextController* for a new search if desired. Pressing any business table cell tarnsitions users to the *BusinessDetailsViewController*. 
+ 
  In this view, users are presented with a multitude of relevant data including description, website, and phone information. A back button is present in the header section for users interested in trying a different location. At the bottom of the table is a button to transition to the final screen, the map view. 
+ 
  Map was included just to offer users an extra dimension in their search for comprehensive business data. The *MapViewController* marks two points, the user location and the selected business location. Simulator user location is always San Francisco, CA. A route connecting the two points appears for users to peruse. Additionally, clicking on the business pin will present the user with an alert detailing the exact address of the business. Users can find a back button at the bottom of the map view if interested in mapping a different location from the variety of options. 
 
 ## UI Components Utilized

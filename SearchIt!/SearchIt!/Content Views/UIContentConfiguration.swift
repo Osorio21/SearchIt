@@ -2,7 +2,7 @@
 //  UIContentConfiguration.swift
 //  SearchIt!
 //
-//  Created by Brian Pinto on 1/9/23.
+//  
 //
 
 //UICC protocol requires types to implement makeContentView and updated methods

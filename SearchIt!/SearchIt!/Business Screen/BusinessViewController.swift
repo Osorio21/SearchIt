@@ -7,21 +7,33 @@
 
 import UIKit
 
-//confroms to CallDelegate Protocol of class that contains API Call function
-class BusinessViewController: UICollectionViewController, CallDelegate {
+
+class BusinessViewController: UICollectionViewController{
     
     typealias DataSource = UICollectionViewDiffableDataSource<Int, String>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, String>
         
     var dataSource: DataSource!
-    var call: Call?
     var businesses = [Business]()
+    var input: Foursquare_API_Constants?
+    var c = Call()
+    var F = Foursquare_API_Constants()
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        call = Call()
-        call?.delegate = self
+        
+        if let input {
+            print(input.city)
+            print(input.state)
+            print(input.category)
+            print(input.max_amount)
+            print(input.sort_by)
+        }
+        
+        //fourSquareCall(constant: F)
+        
         
         let listLayout = listLayout()
         collectionView.collectionViewLayout = listLayout
@@ -30,11 +42,12 @@ class BusinessViewController: UICollectionViewController, CallDelegate {
         collectionView.backgroundColor = UIColor(red: 0.0, green: 204.0/255.0, blue: 102.0/255.0, alpha: 1)
         
         //configure list cells
-        let cellRegistration = UICollectionView.CellRegistration { [self] (cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: String) in
-            let input = self.businesses[indexPath.item]//doesn't work
+        let cellRegistration = UICollectionView.CellRegistration {(cell: UICollectionViewListCell, indexPath: IndexPath, itemIdentifier: String) in
+         
+            let input = InputValues.sampleData[indexPath.item]
             var contentConfiguration = cell.defaultContentConfiguration()
-            contentConfiguration.text = input.name
-            contentConfiguration.secondaryText = input.address + "  " + input.phone
+            contentConfiguration.text = input.category
+            contentConfiguration.secondaryText = input.city + "," + input.state
             contentConfiguration.secondaryTextProperties.font = UIFont.preferredFont(forTextStyle: .caption1)
             cell.contentConfiguration = contentConfiguration
             
@@ -42,9 +55,12 @@ class BusinessViewController: UICollectionViewController, CallDelegate {
             backgroundConfiguration.backgroundColor = UIColor(named: "TodayListCellBackground")
             cell.backgroundConfiguration = backgroundConfiguration
             
+            /*
             var buttonSymbol = buttonSymbolConfiguration(for: input)
             buttonSymbol.tintColor = UIColor(named: "TodayListCellDoneButtonTint")
             cell.accessories = [ .customView(configuration: buttonSymbol), .disclosureIndicator(displayed: .always) ]
+             
+             */
             
         }
         
@@ -54,16 +70,16 @@ class BusinessViewController: UICollectionViewController, CallDelegate {
         
         var snapshot = Snapshot()
         snapshot.appendSections([0])
-        snapshot.appendItems(self.businesses.map { $0.name})
+        snapshot.appendItems(InputValues.sampleData.map { $0.category})
         dataSource.apply(snapshot)
         
-       
+        collectionView.dataSource = dataSource
     }
     
     //list config
     private func listLayout() -> UICollectionViewCompositionalLayout {
         var listConfig = UICollectionLayoutListConfiguration(appearance: .grouped)
-        listConfig.showsSeparators = false
+        listConfig.showsSeparators = true
         listConfig.backgroundColor = .clear
         return UICollectionViewCompositionalLayout.list(using: listConfig)
     }
@@ -78,35 +94,54 @@ class BusinessViewController: UICollectionViewController, CallDelegate {
         return UICellAccessory.CustomViewConfiguration(customView: button, placement: .leading(displayed: .always))
         }
     
-    
-    //doesn't function properly
-    //obtain decoded JSON and update array of Businesses to then be displayed
-    func businessesReturned(_ businesses: [Business]) {
+    func businessesFetched(_ businesses: [Business]){
         self.businesses = businesses
-        var snapshot = Snapshot()
-        snapshot.appendSections([0])
-        snapshot.appendItems(self.businesses.map { $0.name})
-        dataSource.apply(snapshot)
-    }
-    
-
-}
-
-extension BusinessViewController: APIInformation {
-    
-    //provides information collected from input screen to use in API call
-    func didEnterData(category_text: String, city_text: String, state_text: String, amount_text: String, sort_text: String) {
-        var F = Foursquare_API_Constants()
-        F.category = category_text
-        F.state = state_text
-        F.city = city_text
-        F.max_amount = Int(amount_text)!
-        F.sort_by = sort_text
-        call?.fourSquareCall(constant: F)
-        
         
     }
-    
+    func fourSquareCall(constant: Foursquare_API_Constants) {
+        
+        //headers
+        let headers = [
+            "accept": "application/json",
+            "Authorization": "fsq3JTL5+KcqJ1NavgKztGZqlH2zm9sYz1Ixk6NR4oKNkns="
+        ]
+        
+        //URL Request
+        let request = NSMutableURLRequest(url: NSURL(string: constant.API_URL)! as URL,cachePolicy: .useProtocolCachePolicy,timeoutInterval: 10.0)
+        
+        //set request properties
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = headers
+        
+        //create task
+        let session = URLSession.shared
+        let dataTask = session.dataTask(with: request as URLRequest) { (data, response, error) -> Void in
+            
+            //check error and response of dataTask
+            if (error != nil) {
+                print(error as Any)
+                
+                //decode data if no errors
+            } else {
+                do {
+                    let decoder = JSONDecoder()
+                    let response = try decoder.decode(Businesses.self, from: data!)
+                    for x in response.results {
+                        self.businesses.append(x)
+                    //print(self.businesses.count)
+                    }
+                }
+                
+                catch {
+                    print("Error parsing data")
+                }
+                
+            }
+        }
+        
+        //start task
+        dataTask.resume()
+    }
 }
 
 

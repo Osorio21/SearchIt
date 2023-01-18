@@ -41,7 +41,7 @@ class BusinessDetailViewController: UICollectionViewController {
     //configuration of content in each cell
     func cellRegistrationHandler(cell: UICollectionViewListCell, indexPath: IndexPath, row: Row) {
         var contentConfig = cell.defaultContentConfiguration()
-        contentConfig.text = text(for: row)
+        //contentConfig.text = text(for: row)
         contentConfig.textProperties.font = UIFont.preferredFont(forTextStyle: row.textStyle)
         contentConfig.image = row.image
         cell.contentConfiguration = contentConfig
@@ -51,20 +51,18 @@ class BusinessDetailViewController: UICollectionViewController {
     private func updateSnapshot() {
         var snapshot = snapshot()
         snapshot.appendSections([0])
-        snapshot.appendItems([.name, .address, .phone, .web, .description, .tips], toSection: 0)
+        snapshot.appendItems([.name, .address, .phone, .web], toSection: 0)
         dataSource.apply(snapshot)
     }
-    
+    /*
     //returns text for cell depending on row enumeration
     func text(for row: Row) -> String? {
         switch row {
         case .name: return business.name
         case .address: return business.address
         case .phone: return business.phone
-        case .web: return business.website
-        case .description: return business.description
-        case .tips: return business.tips?[0]
+        //case .web: return business.website
         }
     }
-    
+     */
 }

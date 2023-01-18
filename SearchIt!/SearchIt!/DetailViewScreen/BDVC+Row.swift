@@ -17,8 +17,6 @@ extension BusinessDetailViewController {
         case address
         case phone
         case web
-        case description
-        case tips
         
         //SF Symbol next to detail row depending on case
         var imageName: String? {
@@ -26,8 +24,6 @@ extension BusinessDetailViewController {
             case .address: return "globe.americas.fill"
             case .phone: return "phone.circle"
             case .web: return "wifi"
-            case .description: return "globe.americas.fill"
-            case .tips: return "scribble"
             default: return nil
             }
         }

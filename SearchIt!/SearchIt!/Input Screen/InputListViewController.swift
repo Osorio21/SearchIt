@@ -12,6 +12,8 @@ class InputListViewController: UICollectionViewController {
     //create diffiable data source using typealias
     var dataSource: DS!
     
+  
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -34,6 +36,9 @@ class InputListViewController: UICollectionViewController {
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
             
         }
+        
+        
+        
         
         updateSnapshot()
         
@@ -68,6 +73,10 @@ class InputListViewController: UICollectionViewController {
         listConfig.headerMode = .firstItemInSection
         return UICollectionViewCompositionalLayout.list(using: listConfig)
     }
+    
+   
+    
+    
     
     
 }

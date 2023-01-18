@@ -9,7 +9,7 @@ import Foundation
 
 
 //Business object that will contain specific properties
-struct Business: Decodable, Identifiable {
+struct Business: Decodable{
     
     let name: String
     let address: String
@@ -19,6 +19,8 @@ struct Business: Decodable, Identifiable {
     var description: String? = ""
     let latitude: Double
     let longitude: Double
+    let tips: [Tip]?
+    
     
     //specify keys
     enum CodingKeys: String, CodingKey{
@@ -34,18 +36,22 @@ struct Business: Decodable, Identifiable {
         case main
         case latitude
         case longitude
+        case tips
+        
     }
     
     init (from decoder: Decoder) throws {
         
         let values = try decoder.container(keyedBy: CodingKeys.self)
         
-        //Parse name, phone, website, description, tips, and fsq_id
+        //Parse name, phone, website, description and fsq_id
         self.name = try values.decode(String.self, forKey: .name)
         self.phone = try? values.decode(String.self, forKey: .phone)
         self.website = try? values.decode(String.self, forKey: .website)
         self.id = try values.decode(String.self, forKey: .id)
         self.description = try? values.decode(String.self, forKey: .description)
+        self.tips = try? values.decode([Tip].self, forKey: .tips)
+        
         
         //Parse location data
         let locationContainer = try values.nestedContainer(keyedBy: CodingKeys.self, forKey: .location)
@@ -57,12 +63,20 @@ struct Business: Decodable, Identifiable {
         self.latitude = try mainContainer.decode(Double.self, forKey: .latitude)
         self.longitude = try mainContainer.decode(Double.self, forKey: .longitude)
     }
+    
+    struct Tip: Decodable {
+        let text: String
+        
+        enum CodingKeys: String, CodingKey {
+            case text
+        }
+        
+        init(from decoder: Decoder) throws {
+            let values = try decoder.container(keyedBy: CodingKeys.self)
+            self.text = try values.decode(String.self, forKey: .text)
+        }
+    }
 }
-
-
-
-
-
 
 //Test JSON
 

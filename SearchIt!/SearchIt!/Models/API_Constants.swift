@@ -20,7 +20,7 @@ struct Foursquare_API_Constants {
     var max_amount: String
     var sort_by: String
     
-    //default values
+    //default values for intializer
     init(_ city: String = "Seattle", _ state: String = "WA", _ category: String = "pizza", _ max_amount: String = "2", _ sort_by: String = "RELEVANCE"){
         
         self.city = city
@@ -30,13 +30,7 @@ struct Foursquare_API_Constants {
         self.sort_by = sort_by
         
         self.API_URL = """
-https://api.foursquare.com/v3/places/search?query=\(self.category)&fields=name%2Clocation%2Ctel%2Cwebsite%2Cfsq_id%2Cdescription%2Cgeocodes&near=\(self.city)%2C\(self.state)&sort=\(self.sort_by)&limit=\(self.max_amount)
+https://api.foursquare.com/v3/places/search?query=\(self.category)&fields=name%2Clocation%2Ctel%2Cwebsite%2Cfsq_id%2Ctips%2Cdescription%2Cgeocodes&near=\(self.city)%2C\(self.state)&sort=\(self.sort_by)&limit=\(self.max_amount)
 """
     }
 }
-
-
-
-
-
-

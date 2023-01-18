@@ -9,8 +9,18 @@ import Foundation
 
 //send request to FourSquare Places API based on URL property in Foursquare_API_Constants
 //decode retrieved JSON as Businesses object which is an array of Business objects
+//function moved to BusinessTableViewController
+//this file is for reference
 
-class Call{
+//declare protocol
+protocol APICALL {
+    func fetchBusinesses(_ businesses: [Business])
+}
+
+class Call {
+    
+    //delegate property
+    var delegate: APICALL?
     
     func fourSquareCall(constant: Foursquare_API_Constants) {
         
@@ -40,8 +50,12 @@ class Call{
                 do {
                     let decoder = JSONDecoder()
                     let response = try decoder.decode(Businesses.self, from: data!)
+                    
+                    //call delegate method
+                    Dispatch.DispatchQueue.main.async {
+                        self.delegate?.fetchBusinesses(response.results)
+                    }
                 }
-                
                 catch {
                     print("Error parsing data")
                 }

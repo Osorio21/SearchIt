@@ -9,7 +9,8 @@ import UIKit
 import MapKit
 import CoreLocation
 
-//view controller that provides a map with business location and a route from user location
+//view controller that provides a map with business location/address and user location
+//route from user to business is drawn upon the map
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
@@ -48,6 +49,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.view.addSubview(rewindItbutton)
         
         //determines if user has allowed location services to be used
+        //fails if not sufficient authorizaiton
         checkLocationServices()
         
         //create distance request
@@ -66,7 +68,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         //create directions request
         let directions = MKDirections(request: request)
         
-        //add directions as overlays to map
+        //add route as overlays to map
         directions.calculate { [unowned self] response, error in
             guard let unwrappedResponse = response else {return}
             
@@ -77,6 +79,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    //creates annotation view for business location
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is BusinessLocation else {return nil}
         
@@ -97,6 +100,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         return annotationView
     }
     
+    //creates aleart only on business pin that provides address when tapped
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         guard let business = view.annotation as? BusinessLocation else {return}
         
@@ -104,21 +108,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         let businessInfo = business.info
         
         let alert = UIAlertController(title: businessName, message: businessInfo, preferredStyle: .alert)
-        
         alert.addAction(UIAlertAction(title: "GotIt!", style: .default))
-        
         present(alert, animated: true)
     }
     
+    //dismiss view if "RewindIt!" button is presssed
     @objc func returnScreen(sender: UIButton) {
         dismiss(animated: true)
     }
     
-    //draw overlays on map
+    //draw route overlays on map in blue
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let renderer = MKPolylineRenderer(polyline: overlay as! MKPolyline)
         renderer.strokeColor = .blue
         return renderer
     }
-      
 }

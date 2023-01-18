@@ -6,7 +6,7 @@
 //
 
 //extension of MapViewController class that conforms to CLLocationManagerDelegate
-//methods for determining location authorization level and updating map view with user location
+//methods for determining location services authorization level and updating map view with user location
 
 import CoreLocation
 import MapKit
@@ -46,6 +46,8 @@ extension MapViewController: CLLocationManagerDelegate {
             locationManager.requestWhenInUseAuthorization()
         case .restricted:
             break
+            
+        //authorizationStatus() deprecated in iOS 14.0
         @unknown default:
             break
         }

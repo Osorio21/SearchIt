@@ -18,19 +18,19 @@ class BusinessDetailsViewController: UITableViewController {
     //array of table header titles
     let headerTitles = ["Name:", "Description:", "Address:", "Phone:", "Website:", "Tips:"]
     
+    //create back button and map button
+    let rewindItbutton = TransitionButton(frame: CGRect(x: 0, y: 0, width: 250, height: 50), label: "RewindIt!")
+    let mapItbutton = TransitionButton(frame: CGRect(x: 0, y: 0, width: 250, height: 100), label: "MapIt!")
+    
+    //create custom views
+    let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 150))
+    let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 100))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //set background color
         tableView.backgroundColor = UIColor(red: 153.0/255.0, green: 153.0/255.0, blue: 1, alpha: 1.0)
-        
-        //create custom views
-        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 150))
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: 300, height: 100))
-        
-        //create back button and map button
-        let rewindItbutton = TransitionButton(frame: CGRect(x: 0, y: 0, width: 250, height: 50), label: "RewindIt!")
-        let mapItbutton = TransitionButton(frame: CGRect(x: 0, y: 0, width: 250, height: 100), label: "MapIt!")
         
         //back button properties and action
         rewindItbutton.accessibilityLabel = NSLocalizedString("Rewind Button", comment: "Rewind button accessibility label")
@@ -51,30 +51,14 @@ class BusinessDetailsViewController: UITableViewController {
         tableView.tableHeaderView = headerView
     }
     
-    //set number of sections
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return headerTitles.count
-    }
-    
-    //set number of rows per section
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    //set header text properties
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView {
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 25))
-        label.textColor = UIColor(red: 64.0/255.0, green: 64.0/255.0, blue: 64.0/255.0, alpha: 1)
-        label.text = self.headerTitles[section]
-        label.font = UIFont.boldSystemFont(ofSize: 25)
-        label.textAlignment = .center
-        return label
-    }
-    
-    //set cell configuration
+    //set cell configuration based on section
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DCell", for: indexPath)
+        
+        //unwrap Business object from BusinessTableViewController
         let businessData = business!
+        
+        //array of String properties in Business object
         let businessArray = [businessData.name, businessData.description, businessData.address, businessData.phone, businessData.website]
         
         //set cell content based on section
@@ -108,15 +92,6 @@ class BusinessDetailsViewController: UITableViewController {
             counter += 1
         }
         return tip
-    }
-    
-    //sets table cell height
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
-    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 80.0
     }
     
     //dismisses view after RewindIt! button is pressed
